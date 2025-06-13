@@ -1,680 +1,470 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { MapPin, Clock, Users, Tent, Flame, Droplets, Car, Mail, Star } from "lucide-react"
+import { MapPin, Users, Tent, Flame, Droplets, Car, Mail, ArrowRight, Play, Calendar, Shield, Wifi } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white/90 backdrop-blur-sm border-gray-200 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
+    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+      {/* Glassmorphism Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-black/20 border-b border-white/10">
+        <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-gray-900">奥房総みらいプロジェクト</h1>
-            <nav className="hidden md:flex space-x-6">
-              <a href="#concept" className="text-gray-600 hover:text-gray-900 transition-colors">
-                コンセプト
-              </a>
-              <a href="#features" className="text-gray-600 hover:text-gray-900 transition-colors">
-                施設案内
-              </a>
-              <a href="#rental" className="text-gray-600 hover:text-gray-900 transition-colors">
-                レンタル用品
-              </a>
-              <a href="#sauna" className="text-gray-600 hover:text-gray-900 transition-colors">
-                テントサウナ
-              </a>
-              <a href="#plans" className="text-gray-600 hover:text-gray-900 transition-colors">
-                料金プラン
-              </a>
-              <a href="#access" className="text-gray-600 hover:text-gray-900 transition-colors">
-                アクセス
-              </a>
-              <a href="#faq" className="text-gray-600 hover:text-gray-900 transition-colors">
-                FAQ
-              </a>
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-xl flex items-center justify-center">
+                <Tent className="w-6 h-6 text-white" />
+              </div>
+              <h1 className="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                奥房総みらいプロジェクト
+              </h1>
+            </div>
+            <nav className="hidden lg:flex items-center space-x-8">
+              {['コンセプト', '施設案内', 'レンタル', 'サウナ', '料金', 'アクセス'].map((item) => (
+                <a 
+                  key={item}
+                  href={`#${item.toLowerCase()}`} 
+                  className="text-white/80 hover:text-white transition-all duration-300 hover:scale-105 relative group"
+                >
+                  {item}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-600 group-hover:w-full transition-all duration-300"></span>
+                </a>
+              ))}
             </nav>
+            <Link href="/reservation">
+              <Button className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white border-0 px-6 py-2 rounded-full font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/25">
+                予約する
+              </Button>
+            </Link>
           </div>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center">
-        <div className="absolute inset-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover"
-          >
-            <source src="/okuboso-mirai-pv.mov" type="video/mp4" />
-            <source src="/okuboso-mirai-pv.mov" type="video/quicktime" />
-            廃校の校庭から見る里山の風景
-          </video>
-          <div className="absolute inset-0 bg-black/30"></div>
+      {/* Hero Section - Full Screen with Parallax */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Image with Parallax Effect */}
+        <div className="absolute inset-0 scale-110">
+          <Image
+            src="/20250527041351.JPEG"
+            alt="廃校キャンプサイトの美しい風景"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30"></div>
         </div>
-        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-          <h2 className="text-5xl md:text-7xl font-light mb-6 leading-tight">
-            懐かしい校庭で、
-            <br />
-            非日常の体験を
-          </h2>
-          <p className="text-xl md:text-2xl mb-8 font-light opacity-90">
-            廃校の校庭を活用した特別なキャンプ場。
-            <br />
-            自然の中でテント泊とテントサウナで、心と体のリフレッシュを。
+
+        {/* Hero Content */}
+        <div className="relative z-10 text-center max-w-6xl mx-auto px-6">
+          <div className="mb-8 inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/20">
+            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+            <span className="text-sm text-white/90 font-medium">廃校リノベーション × 自然体験</span>
+          </div>
+          
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black mb-8 leading-none">
+            <span className="block bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
+              懐かしい
+            </span>
+            <span className="block bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent">
+              校庭で、
+            </span>
+            <span className="block bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
+              非日常を
+            </span>
+          </h1>
+          
+          <p className="text-xl md:text-2xl text-white/80 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
+            千葉県大多喜町の廃校を舞台に、テント泊とテントサウナで
+            <br className="hidden md:block" />
+            心と体を解放する、新しいキャンプ体験
           </p>
-          <Link href="/reservation">
-            <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg">
-              今すぐ予約→
+          
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <Link href="/reservation">
+              <Button size="lg" className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/25 group">
+                今すぐ予約する
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
+            <Button variant="outline" size="lg" className="border-2 border-white/30 bg-white/10 backdrop-blur-md text-white hover:bg-white/20 px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 hover:scale-105 group">
+              <Play className="mr-2 w-5 h-5 group-hover:scale-110 transition-transform" />
+              体験動画を見る
             </Button>
-          </Link>
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-white/60 rounded-full mt-2 animate-pulse"></div>
+          </div>
         </div>
       </section>
 
-      {/* Concept Section */}
-      <section id="concept" className="py-24 bg-white">
-        <div className="container mx-auto px-4">
+      {/* Concept Section - Glassmorphism Cards */}
+      <section id="concept" className="py-32 relative">
+        <div className="absolute inset-0">
+          <Image
+            src="/20250527041332.JPEG"
+            alt="Background"
+            fill
+            className="object-cover opacity-20"
+          />
+        </div>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-20">
+              <h2 className="text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                コンセプト
+              </h2>
+              <p className="text-xl text-white/70 max-w-4xl mx-auto leading-relaxed">
+                都心から約80分。自然豊かな里山の廃校で、地域と人をつなぐ実験的な体験空間
+              </p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  icon: Tent,
+                  title: "広大な校庭キャンプ",
+                  description: "全面芝生の校庭で自由にテント設営。星空の下で特別な夜を",
+                  image: "/20250527041256.JPEG"
+                },
+                {
+                  icon: Flame,
+                  title: "テントサウナ体験",
+                  description: "薪ストーブ式サウナで汗を流し、自然の中で心身をリセット",
+                  image: "/20250527041143.JPEG"
+                },
+                {
+                  icon: Users,
+                  title: "廃校リノベーション",
+                  description: "整備されたインフラとコワーキングスペースで快適滞在",
+                  image: "/20250527041123.JPEG"
+                }
+              ].map((item, index) => (
+                <Card key={index} className="bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/15 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/10 group overflow-hidden">
+                  <div className="relative h-48 overflow-hidden">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  </div>
+                  <CardContent className="p-8">
+                    <div className="w-16 h-16 bg-gradient-to-br from-emerald-400/20 to-teal-600/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                      <item.icon className="w-8 h-8 text-emerald-400" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-4">{item.title}</h3>
+                    <p className="text-white/70 leading-relaxed">{item.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section - Split Layout */}
+      <section id="features" className="py-32 bg-gradient-to-b from-black to-gray-900">
+        <div className="container mx-auto px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div className="space-y-8">
+                <div>
+                  <h2 className="text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                    施設案内
+                  </h2>
+                  <p className="text-xl text-white/70 leading-relaxed">
+                    廃校ならではの充実した設備と、自然を活かした快適な環境
+                  </p>
+                </div>
+                
+                <div className="space-y-6">
+                  {[
+                    { icon: Tent, title: "フリーサイト形式", desc: "芝生エリアとウッドデッキで自由設営" },
+                    { icon: Shield, title: "校舎施設利用", desc: "トイレ・炊事場・シャワー完備" },
+                    { icon: Users, title: "ペット同伴可", desc: "愛犬と一緒にキャンプ体験" },
+                    { icon: Wifi, title: "コワーキング", desc: "Wi-Fi完備で急な仕事も安心" }
+                  ].map((feature, index) => (
+                    <div key={index} className="flex items-start space-x-4 p-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 hover:bg-white/10 transition-all duration-300 group">
+                      <div className="w-12 h-12 bg-gradient-to-br from-emerald-400/20 to-teal-600/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <feature.icon className="w-6 h-6 text-emerald-400" />
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-bold text-white mb-2">{feature.title}</h4>
+                        <p className="text-white/70">{feature.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="relative">
+                <div className="relative h-[600px] rounded-3xl overflow-hidden">
+                  <Image
+                    src="/20250527020429.JPEG"
+                    alt="施設の様子"
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                </div>
+                <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-full opacity-20 blur-xl"></div>
+                <div className="absolute -top-8 -right-8 w-24 h-24 bg-gradient-to-br from-teal-400 to-emerald-600 rounded-full opacity-20 blur-xl"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Sauna Section - Full Width */}
+      <section id="sauna" className="py-32 relative overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/20250527020306.JPEG"
+            alt="テントサウナ"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-black/70"></div>
+        </div>
+        
+        <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-4xl font-light text-gray-900 mb-8">コンセプト</h3>
-            <p className="text-lg text-gray-600 leading-relaxed mb-12">
-              都心から約80分。千葉県大多喜町の自然豊かな里山にある廃校の校庭を活用し、
-              <br />
-              地域と人をつなぐ「実験的な自然体験の場」として生まれ変わりました。
-              <br />
-              非日常にリセットできるキャンプ体験と、校舎を眺めるロケーションでの
-              <br />
-              テントサウナで &quot;ととのう&quot; 体験をお楽しみください。
+            <h2 className="text-5xl md:text-7xl font-black mb-8 bg-gradient-to-r from-white via-emerald-200 to-white bg-clip-text text-transparent">
+              テントサウナ
+            </h2>
+            <p className="text-2xl text-white/80 mb-12 leading-relaxed">
+              校舎を眺める絶好のロケーションで、薪ストーブ式テントサウナ。
+              <br className="hidden md:block" />
+              地元間伐材の薪で温まり、地下水の水風呂で &quot;ととのう&quot; 至福の時間
             </p>
+            
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
+              {[
+                { icon: Flame, title: "薪ストーブ式", desc: "本格的なサウナ体験" },
+                { icon: Droplets, title: "天然水風呂", desc: "地下水を利用した冷水" },
+                { icon: Users, title: "プライベート", desc: "貸切プランも対応" }
+              ].map((item, index) => (
+                <div key={index} className="bg-white/10 backdrop-blur-xl rounded-2xl p-8 border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                  <item.icon className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
+                  <h4 className="text-xl font-bold text-white mb-2">{item.title}</h4>
+                  <p className="text-white/70">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+            
+            <Button size="lg" className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 hover:scale-105">
+              サウナ予約はこちら
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section - Modern Cards */}
+      <section id="plans" className="py-32 bg-gradient-to-b from-gray-900 to-black">
+        <div className="container mx-auto px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-20">
+              <h2 className="text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                料金プラン
+              </h2>
+              <p className="text-xl text-white/70 max-w-3xl mx-auto">
+                初心者から本格派まで、あなたにぴったりのキャンプ体験を
+              </p>
+            </div>
+            
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Tent className="w-8 h-8 text-emerald-600" />
-                </div>
-                <h4 className="text-xl font-medium text-gray-900 mb-2">広大な校庭でのキャンプ</h4>
-                <p className="text-gray-600">大自然に囲まれた全面芝生の広大な校庭で自由にキャンプを楽しみませんか？</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Flame className="w-8 h-8 text-emerald-600" />
-                </div>
-                <h4 className="text-xl font-medium text-gray-900 mb-2">テントサウナ</h4>
-                <p className="text-gray-600">自然の中でのテントサウナで身も心も整う</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-emerald-600" />
-                </div>
-                <h4 className="text-xl font-medium text-gray-900 mb-2">廃校の強み</h4>
-                <p className="text-gray-600">元学校舎という強み、整備されたインフラ。急な仕事も安心のコワーキングスペース</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section id="features" className="py-24 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h3 className="text-4xl font-light text-gray-900 text-center mb-16">キャンプ場の特徴</h3>
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <Image
-                  src="/school-yard.jpg"
-                  alt="廃校の校庭から見る里山キャンプサイト"
-                  width={600}
-                  height={400}
-                  className="rounded-lg shadow-lg"
-                />
-              </div>
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-emerald-600 font-bold text-sm">1</span>
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-medium text-gray-900 mb-2">フリーサイト形式</h4>
-                    <p className="text-gray-600">芝生エリアと一部ウッドデッキで、自由にテントを設営できます</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-emerald-600 font-bold text-sm">2</span>
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-medium text-gray-900 mb-2">校舎施設利用可</h4>
-                    <p className="text-gray-600">トイレ、炊事場、シャワー施設をご利用いただけます</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-emerald-600 font-bold text-sm">3</span>
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-medium text-gray-900 mb-2">ペット同伴可</h4>
-                    <p className="text-gray-600">リード着用必須で、愛犬と一緒にキャンプをお楽しみください</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <span className="text-emerald-600 font-bold text-sm">4</span>
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-medium text-gray-900 mb-2">コワーキングスペース</h4>
-                    <p className="text-gray-600">インターネットが利用可能なコワーキングスペースで急な仕事も安心</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Rental Equipment Section */}
-      <section id="rental" className="py-24 bg-green-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h3 className="text-4xl font-light text-gray-900 text-center mb-8">レンタル用品</h3>
-            <p className="text-lg text-gray-600 text-center mb-16 max-w-3xl mx-auto">
-              手ぶらでキャンプを楽しめるよう、高品質なキャンプ用品をご用意しています。
-              <br />
-              クラウドファンディング支援者様のネームプレートが付いた特別な用品もございます。
-            </p>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Card className="bg-white border-green-200 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-6">
-                  <div className="relative mb-4">
-                    <Image
-                      src="/rental-equipment/tent.svg"
-                      alt="テント"
-                      width={300}
-                      height={200}
-                      className="rounded-lg w-full object-cover"
-                    />
-                    <div className="absolute top-2 right-2 bg-green-600 text-white px-2 py-1 rounded-full text-xs">
-                      支援者様提供
+              {[
+                {
+                  name: "ライト",
+                  price: "¥5,000",
+                  desc: "気軽に学校キャンプ体験",
+                  features: ["区画サイト利用", "トイレ・炊事場", "チェックイン 15:00-18:00"],
+                  popular: false
+                },
+                {
+                  name: "スタンダード",
+                  price: "¥8,000",
+                  desc: "手ぶらでらくらくキャンプ",
+                  features: ["基本ギア貸出付き", "シャワー施設", "チェックイン 15:00-18:00"],
+                  popular: true
+                },
+                {
+                  name: "プレミアム",
+                  price: "¥12,000",
+                  desc: "贅沢廃校グランピング",
+                  features: ["グランピングサイト", "ベッド・ソファ完備", "特別アクティビティ"],
+                  popular: false
+                }
+              ].map((plan, index) => (
+                <Card key={index} className={`relative overflow-hidden transition-all duration-500 hover:scale-105 ${
+                  plan.popular 
+                    ? 'bg-gradient-to-b from-emerald-500/20 to-teal-600/20 border-2 border-emerald-400/50' 
+                    : 'bg-white/10 border border-white/20'
+                } backdrop-blur-xl hover:shadow-2xl hover:shadow-emerald-500/10`}>
+                  {plan.popular && (
+                    <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-emerald-400 to-teal-600 text-center py-2">
+                      <span className="text-sm font-bold text-white">オススメ</span>
                     </div>
-                  </div>
-                  <h4 className="text-xl font-semibold text-gray-900 mb-2">テント（2〜4人用）</h4>
-                  <p className="text-gray-600 mb-4">設営簡単な高品質テント。防水性能も抜群です。</p>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-2xl font-bold text-green-600">¥2,000</span>
-                    <span className="text-gray-500">/泊</span>
-                  </div>
-                  <div className="bg-green-100 p-3 rounded-lg">
-                    <p className="text-sm text-green-800 font-medium">支援者：田中様</p>
-                    <p className="text-xs text-green-600">「みんなで楽しいキャンプを！」</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white border-green-200 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-6">
-                  <div className="relative mb-4">
-                    <Image
-                      src="/rental-equipment/camping-chair.svg"
-                      alt="チェア・テーブルセット"
-                      width={300}
-                      height={200}
-                      className="rounded-lg w-full object-cover"
-                    />
-                    <div className="absolute top-2 right-2 bg-green-600 text-white px-2 py-1 rounded-full text-xs">
-                      支援者様提供
+                  )}
+                  <CardContent className={`p-8 ${plan.popular ? 'pt-12' : ''}`}>
+                    <h3 className="text-2xl font-bold text-white mb-2">{plan.name}プラン</h3>
+                    <p className="text-white/70 mb-6">{plan.desc}</p>
+                    <div className="mb-8">
+                      <span className="text-4xl font-black text-white">{plan.price}</span>
+                      <span className="text-white/60 ml-2">/泊</span>
                     </div>
-                  </div>
-                  <h4 className="text-xl font-semibold text-gray-900 mb-2">チェア・テーブルセット</h4>
-                  <p className="text-gray-600 mb-4">軽量で持ち運びやすいアウトドア家具セット。</p>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-2xl font-bold text-green-600">¥1,500</span>
-                    <span className="text-gray-500">/泊</span>
-                  </div>
-                  <div className="bg-green-100 p-3 rounded-lg">
-                    <p className="text-sm text-green-800 font-medium">支援者：山田様</p>
-                    <p className="text-xs text-green-600">「快適なキャンプライフを応援！」</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white border-green-200 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-6">
-                  <div className="relative mb-4">
-                    <Image
-                      src="/rental-equipment/bbq-grill.svg"
-                      alt="BBQグリル"
-                      width={300}
-                      height={200}
-                      className="rounded-lg w-full object-cover"
-                    />
-                    <div className="absolute top-2 right-2 bg-green-600 text-white px-2 py-1 rounded-full text-xs">
-                      支援者様提供
-                    </div>
-                  </div>
-                  <h4 className="text-xl font-semibold text-gray-900 mb-2">BBQグリル</h4>
-                  <p className="text-gray-600 mb-4">炭火で楽しむ本格BBQグリル。炭・着火剤付き。</p>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-2xl font-bold text-green-600">¥1,800</span>
-                    <span className="text-gray-500">/泊</span>
-                  </div>
-                  <div className="bg-green-100 p-3 rounded-lg">
-                    <p className="text-sm text-green-800 font-medium">支援者：佐藤様</p>
-                    <p className="text-xs text-green-600">「美味しいBBQをみんなで！」</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white border-green-200 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-6">
-                  <div className="mb-4">
-                    <Image
-                      src="/rental-equipment/sleeping-bag.svg"
-                      alt="寝袋・マット"
-                      width={300}
-                      height={200}
-                      className="rounded-lg w-full object-cover"
-                    />
-                  </div>
-                  <h4 className="text-xl font-semibold text-gray-900 mb-2">寝袋・マット</h4>
-                  <p className="text-gray-600 mb-4">快適な睡眠をサポートする寝袋とマットのセット。</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-green-600">¥1,200</span>
-                    <span className="text-gray-500">/泊</span>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white border-green-200 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-6">
-                  <div className="mb-4">
-                    <Image
-                      src="/rental-equipment/lantern.svg"
-                      alt="ランタン・照明"
-                      width={300}
-                      height={200}
-                      className="rounded-lg w-full object-cover"
-                    />
-                  </div>
-                  <h4 className="text-xl font-semibold text-gray-900 mb-2">ランタン・照明</h4>
-                  <p className="text-gray-600 mb-4">夜のキャンプを明るく照らすLEDランタンセット。</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-green-600">¥800</span>
-                    <span className="text-gray-500">/泊</span>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white border-green-200 shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-6">
-                  <div className="mb-4">
-                    <Image
-                      src="/rental-equipment/cooking-set.svg"
-                      alt="調理器具セット"
-                      width={300}
-                      height={200}
-                      className="rounded-lg w-full object-cover"
-                    />
-                  </div>
-                  <h4 className="text-xl font-semibold text-gray-900 mb-2">調理器具セット</h4>
-                  <p className="text-gray-600 mb-4">キャンプ料理に必要な調理器具一式をご用意。</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-green-600">¥1,000</span>
-                    <span className="text-gray-500">/泊</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="text-center mt-12">
-              <div className="bg-white p-6 rounded-lg shadow-lg max-w-2xl mx-auto">
-                <h4 className="text-xl font-semibold text-gray-900 mb-3">クラウドファンディング支援者様へ</h4>
-                <p className="text-gray-600 mb-4">
-                  プロジェクトを支援いただいた皆様のお名前とメッセージを、
-                  レンタル用品に特製ネームプレートとして取り付けさせていただいております。
-                </p>
-                <Button className="bg-green-600 hover:bg-green-700 text-white">プロジェクトを応援する</Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Sauna Section */}
-      <section id="sauna" className="py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h3 className="text-4xl font-light text-gray-900 text-center mb-16">テントサウナ</h3>
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  校舎を眺める絶好のロケーションで、薪ストーブ式テントサウナをお楽しみいただけます。
-                  地元の間伐材を使った薪で温められたサウナで汗を流し、地下水を利用した水風呂で身体を冷やし、
-                  外気浴スペースで里山の風を感じながら &quot;ととのう&quot; 体験をどうぞ。
-                </p>
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <Flame className="w-5 h-5 text-emerald-600" />
-                    <span className="text-gray-700">薪ストーブ式テントサウナ数基設置（要予約）</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <Droplets className="w-5 h-5 text-emerald-600" />
-                    <span className="text-gray-700">仮設水風呂を完備</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <Users className="w-5 h-5 text-emerald-600" />
-                    <span className="text-gray-700">プライベートサウナプランあり</span>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <Image
-                  src="/tent-sauna.jpg"
-                  alt="テントサウナとロウリュの様子"
-                  width={600}
-                  height={400}
-                  className="rounded-lg shadow-lg"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Plans Section */}
-      <section id="plans" className="py-24 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h3 className="text-4xl font-light text-gray-900 text-center mb-8">あなたにぴったりのキャンプ体験を</h3>
-            <p className="text-lg text-gray-600 text-center mb-16">初めての方から本格的なアウトドア体験を求める方まで、様々なニーズに合わせた３つのプランをご用意しています。</p>
-            <div className="grid md:grid-cols-3 gap-8">
-              <Card className="bg-white border-gray-200 shadow-lg">
-                <CardContent className="p-8">
-                  <h4 className="text-2xl font-medium text-gray-900 mb-4">ライトプラン</h4>
-                  <p className="text-sm text-gray-600 mb-4">気軽に学校キャンプ体験</p>
-                  <div className="text-3xl font-bold text-green-600 mb-4">
-                    ¥5,000<span className="text-lg font-normal text-gray-600">/泊</span>
-                  </div>
-                  <div className="space-y-2 mb-6">
-                    <div className="flex items-center space-x-2">
-                      <Clock className="w-4 h-4 text-gray-500" />
-                      <span className="text-gray-600">チェックイン：15:00〜18:00</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Clock className="w-4 h-4 text-gray-500" />
-                      <span className="text-gray-600">チェックアウト：〜11:00</span>
-                    </div>
-                  </div>
-                  <p className="text-gray-600 mb-6">区画サイト利用のみ<br />トイレ、炊事場が利用可能</p>
-                  <Link href="/reservation">
-                    <Button className="w-full bg-green-600 hover:bg-green-700">今すぐ予約</Button>
-                  </Link>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white border-emerald-200 shadow-lg border-2">
-                <CardContent className="p-8">
-                  <div className="bg-emerald-100 text-emerald-800 text-sm font-medium px-3 py-1 rounded-full inline-block mb-4">
-                    オススメ
-                  </div>
-                  <h4 className="text-2xl font-medium text-gray-900 mb-4">スタンダードプラン</h4>
-                  <p className="text-sm text-gray-600 mb-4">手ぶらで設営！らくらくキャンプ</p>
-                  <div className="text-3xl font-bold text-green-600 mb-4">
-                    ¥8,000<span className="text-lg font-normal text-gray-600">/泊</span>
-                  </div>
-                  <div className="space-y-2 mb-6">
-                    <div className="flex items-center space-x-2">
-                      <Clock className="w-4 h-4 text-gray-500" />
-                      <span className="text-gray-600">チェックイン：15:00〜18:00</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Clock className="w-4 h-4 text-gray-500" />
-                      <span className="text-gray-600">チェックアウト：〜11:00</span>
-                    </div>
-                  </div>
-                  <p className="text-gray-600 mb-6">基本キャンプギア貸し出し付き区画サイト<br />トイレ、炊事場、シャワー施設が利用可能</p>
-                  <Link href="/reservation">
-                    <Button className="w-full bg-green-600 hover:bg-green-700">今すぐ予約</Button>
-                  </Link>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white border-gray-200 shadow-lg">
-                <CardContent className="p-8">
-                  <h4 className="text-2xl font-medium text-gray-900 mb-4">プレミアムプラン</h4>
-                  <p className="text-sm text-gray-600 mb-4">贅沢！廃校グランピング</p>
-                  <div className="text-3xl font-bold text-green-600 mb-4">
-                    ¥12,000<span className="text-lg font-normal text-gray-600">/泊</span>
-                  </div>
-                  <div className="space-y-2 mb-6">
-                    <div className="flex items-center space-x-2">
-                      <Clock className="w-4 h-4 text-gray-500" />
-                      <span className="text-gray-600">チェックイン：15:00〜18:00</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Clock className="w-4 h-4 text-gray-500" />
-                      <span className="text-gray-600">チェックアウト：〜11:00</span>
-                    </div>
-                  </div>
-                  <p className="text-gray-600 mb-6">グランピングサイト<br />ベッド、ソファ完備<br />特別アクティビティ</p>
-                  <Link href="/reservation">
-                    <Button className="w-full bg-green-600 hover:bg-green-700">今すぐ予約</Button>
-                  </Link>
-                </CardContent>
-              </Card>
+                    <ul className="space-y-3 mb-8">
+                      {plan.features.map((feature, i) => (
+                        <li key={i} className="flex items-center text-white/80">
+                          <div className="w-2 h-2 bg-emerald-400 rounded-full mr-3"></div>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                    <Link href="/reservation">
+                      <Button className={`w-full py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 ${
+                        plan.popular
+                          ? 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white'
+                          : 'bg-white/10 border border-white/30 text-white hover:bg-white/20'
+                      }`}>
+                        このプランで予約
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* Access Section */}
-      <section id="access" className="py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h3 className="text-4xl font-light text-gray-900 text-center mb-16">アクセス</h3>
-            <div className="grid md:grid-cols-2 gap-12">
-              <div>
-                <h4 className="text-2xl font-medium text-gray-900 mb-6">所在地</h4>
+      <section id="access" className="py-32 relative">
+        <div className="absolute inset-0">
+          <Image
+            src="/20250430044800.JPEG"
+            alt="アクセス"
+            fill
+            className="object-cover opacity-30"
+          />
+        </div>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-20">
+              <h2 className="text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                アクセス
+              </h2>
+            </div>
+            
+            <div className="grid lg:grid-cols-2 gap-16">
+              <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20">
+                <h3 className="text-2xl font-bold text-white mb-6">所在地</h3>
                 <div className="space-y-4">
                   <div className="flex items-start space-x-3">
-                    <MapPin className="w-5 h-5 text-emerald-600 mt-1" />
+                    <MapPin className="w-6 h-6 text-emerald-400 mt-1" />
                     <div>
-                      <p className="text-gray-900 font-medium">〒298-0202</p>
-                      <p className="text-gray-900 font-medium">千葉県夷隅郡大多喜町下大多喜１００</p>
-                      <p className="text-gray-600">（旧上瀑小学校）</p>
+                      <p className="text-white font-medium">〒298-0202</p>
+                      <p className="text-white font-medium">千葉県夷隅郡大多喜町下大多喜１００</p>
+                      <p className="text-white/70">（旧上瀑小学校）</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <Car className="w-5 h-5 text-emerald-600 mt-1" />
+                    <Car className="w-6 h-6 text-emerald-400 mt-1" />
                     <div>
-                      <p className="text-gray-600">勝浦市街から車で約20分</p>
-                      <p className="text-gray-600">都心から約2時間</p>
+                      <p className="text-white/80">勝浦市街から車で約20分</p>
+                      <p className="text-white/80">都心から約2時間</p>
                     </div>
                   </div>
-                  <div className="bg-green-100 p-4 rounded-lg mt-6">
-                    <h5 className="font-medium text-gray-900 mb-2">営業時間</h5>
-                    <p className="text-gray-700">チェックイン：15:00〜18:00</p>
-                    <p className="text-gray-700">チェックアウト：〜11:00</p>
+                </div>
+                
+                <div className="mt-8 p-6 bg-emerald-500/20 rounded-2xl border border-emerald-400/30">
+                  <h4 className="font-bold text-white mb-3">営業時間</h4>
+                  <div className="space-y-1">
+                    <p className="text-white/90">チェックイン：15:00〜18:00</p>
+                    <p className="text-white/90">チェックアウト：〜11:00</p>
                   </div>
                 </div>
               </div>
-              <div>
-                <div className="rounded-lg overflow-hidden shadow-lg">
-                  <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3256.247591177041!2d140.24864785373208!3d35.299828964359115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6022b1451ba7d83f%3A0x98bd61e58198588!2z5aSn5aSa5Zac55S656uL5LiK54Kr5bCP5a2m5qCh!5e0!3m2!1sja!2smy!4v1749694394133!5m2!1sja!2smy" 
-                    width="100%" 
-                    height="450" 
-                    style={{ border: 0 }} 
-                    allowFullScreen={true}
-                    loading="lazy" 
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="大多喜町立上瀑小学校 - Google マップ"
-                  />
-                </div>
+              
+              <div className="rounded-3xl overflow-hidden border border-white/20">
+                <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3256.247591177041!2d140.24864785373208!3d35.299828964359115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6022b1451ba7d83f%3A0x98bd61e58198588!2z5aSn5aSa5Zac55S656uL5LiK54Kr5bCP5a2m5qCh!5e0!3m2!1sja!2smy!4v1749694394133!5m2!1sja!2smy" 
+                  width="100%" 
+                  height="450" 
+                  style={{ border: 0 }} 
+                  allowFullScreen={true}
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="大多喜町立上瀑小学校 - Google マップ"
+                  className="w-full h-full"
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Customer Testimonials Section */}
-      <section className="py-24 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h3 className="text-4xl font-light text-gray-900 text-center mb-8">お客様の声</h3>
-            <p className="text-lg text-gray-600 text-center mb-16">実際にご利用いただいたお客様からの感想</p>
-            <div className="grid md:grid-cols-3 gap-8">
-              <Card className="bg-white shadow-lg">
-                <CardContent className="p-6">
-                  <div className="mb-4">
-                    <div className="flex justify-center mb-4">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star
-                          key={star}
-                          className="w-5 h-5 fill-yellow-400 text-yellow-400"
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <p className="text-gray-600 mb-4 italic">
-                    「奥房総みらいプロジェクトのおかげで、地域の魅力を再発見し、自然と人がつながる新しい体験ができました。」
-                  </p>
-                  <p className="text-gray-900 font-medium">— 佐藤一郎</p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white shadow-lg">
-                <CardContent className="p-6">
-                  <div className="mb-4">
-                    <div className="flex justify-center mb-4">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star
-                          key={star}
-                          className={`w-5 h-5 ${
-                            star <= 4 
-                              ? "fill-yellow-400 text-yellow-400" 
-                              : "fill-gray-300 text-gray-300"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <p className="text-gray-600 mb-4 italic">
-                    「古民家でのイベントは心温まるもので、参加者同士の絆が深まりました。ここでしか味わえない貴重な体験です。」
-                  </p>
-                  <p className="text-gray-900 font-medium">— 中村花子</p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white shadow-lg">
-                <CardContent className="p-6">
-                  <div className="mb-4">
-                    <div className="flex justify-center mb-4">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star
-                          key={star}
-                          className="w-5 h-5 fill-yellow-400 text-yellow-400"
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <p className="text-gray-600 mb-4 italic">
-                    「自然豊かな場所で、心身ともにリフレッシュできました。地域の人々との交流も素晴らしい体験でした。」
-                  </p>
-                  <p className="text-gray-900 font-medium">— 木村健</p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section id="faq" className="py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h3 className="text-4xl font-light text-gray-900 text-center mb-16">よくある質問</h3>
-            <div className="space-y-6">
-              <Card className="bg-gray-50">
-                <CardContent className="p-6">
-                  <h4 className="text-xl font-medium text-gray-900 mb-3">Q. 初心者でも参加できますか？</h4>
-                  <p className="text-gray-600">はい、初心者の方でも安心してご参加いただけるよう、スタッフがサポートいたします。基本的なキャンプ用品もレンタル可能です。</p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gray-50">
-                <CardContent className="p-6">
-                  <h4 className="text-xl font-medium text-gray-900 mb-3">Q. 雨天時はどうなりますか？</h4>
-                  <p className="text-gray-600">小雨程度であれば実施いたします。校舎内の設備も利用可能なため、天候に関わらずお楽しみいただけます。</p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gray-50">
-                <CardContent className="p-6">
-                  <h4 className="text-xl font-medium text-gray-900 mb-3">Q. 持参すべきものはありますか？</h4>
-                  <p className="text-gray-600">基本的な道具はレンタル可能ですが、個人の着替えや洗面用具、タオルなどはご持参ください。詳細は予約時にご案内いたします。</p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gray-50">
-                <CardContent className="p-6">
-                  <h4 className="text-xl font-medium text-gray-900 mb-3">Q. キャンセル料はかかりますか？</h4>
-                  <p className="text-gray-600">ご利用日の3日前までのキャンセルは無料です。それ以降は50%、当日キャンセルは100%のキャンセル料をいただいております。</p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section className="py-24 bg-stone-800 text-white">
-        <div className="container mx-auto px-4">
+      {/* CTA Section */}
+      <section className="py-32 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-4xl font-light mb-8">お問い合わせ・ご予約</h3>
-            <p className="text-xl mb-12 opacity-90">ご不明な点やご予約については、お気軽にお問い合わせください</p>
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              <div className="flex items-center justify-center space-x-3">
-                <Mail className="w-6 h-6" />
-                <span className="text-lg">jifgv.tools@gmail.com</span>
-              </div>
-              <div className="flex items-center justify-center space-x-3">
-                <MapPin className="w-6 h-6" />
-                <span className="text-lg">千葉県夷隅郡大多喜町下大多喜１００</span>
-              </div>
-            </div>
-            <Link href="/reservation">
-              <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 text-lg">
-                予約フォームへ
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Community Section */}
-      <section className="py-16 bg-green-600 text-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-3xl font-light mb-4">コミュニティに参加する</h3>
-            <p className="text-xl mb-8 opacity-90">
-              Slackコミュニティへの参加でプロジェクト全体の最新情報を入手できます
+            <h2 className="text-5xl md:text-6xl font-black text-white mb-8">
+              今すぐ予約して
+              <br />
+              特別な体験を
+            </h2>
+            <p className="text-xl text-white/90 mb-12 leading-relaxed">
+              廃校の校庭で過ごす非日常。テントサウナで心身をリセット。
+              <br className="hidden md:block" />
+              あなたの特別な時間が、ここから始まります。
             </p>
-            <Button size="lg" className="bg-white text-green-600 hover:bg-gray-100 px-8 py-3 text-lg">
-              Slackコミュニティに参加
-            </Button>
+            
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <Link href="/reservation">
+                <Button size="lg" className="bg-white text-emerald-600 hover:bg-gray-100 px-8 py-4 text-lg rounded-full font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl group">
+                  <Calendar className="mr-2 w-5 h-5" />
+                  予約カレンダーを見る
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+              <div className="flex items-center space-x-3 text-white/90">
+                <Mail className="w-5 h-5" />
+                <span>jifgv.tools@gmail.com</span>
+              </div>
+            </div>
           </div>
         </div>
+        
+        {/* Decorative Elements */}
+        <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
+        <div className="absolute bottom-10 right-10 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-stone-900 text-white py-8">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h4 className="text-2xl font-bold mb-4">奥房総みらいプロジェクト</h4>
-            <p className="text-stone-400 mb-4">古民家とロッジと廃校活用から始まる新しい&quot;つながり&quot;づくり</p>
-            <p className="text-stone-400">〒298-0202 千葉県夷隅郡大多喜町下大多喜１００（旧上瀑小学校）</p>
+      <footer className="bg-black py-16 border-t border-white/10">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="flex items-center justify-center space-x-3 mb-6">
+              <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-xl flex items-center justify-center">
+                <Tent className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                奥房総みらいプロジェクト
+              </h3>
+            </div>
+            <p className="text-white/60 mb-6">
+              古民家とロッジと廃校活用から始まる新しい&quot;つながり&quot;づくり
+            </p>
+            <p className="text-white/40 text-sm">
+              〒298-0202 千葉県夷隅郡大多喜町下大多喜１００（旧上瀑小学校）
+            </p>
           </div>
         </div>
       </footer>

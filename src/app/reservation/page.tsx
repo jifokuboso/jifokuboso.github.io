@@ -1,98 +1,72 @@
 'use client'
 
-import { useState } from "react"
+import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Calendar, Clock, Users, ChevronLeft, ChevronRight, Check, X, ShoppingBag } from "lucide-react"
+import { Clock, Tent, ArrowLeft, ArrowRight, Check } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 
-interface TimeSlot {
-  time: string
-  available: boolean
-  plan?: string
-}
-
-interface DayData {
-  date: number
-  available: boolean
-  timeSlots: TimeSlot[]
-}
-
 export default function ReservationPage() {
-  const [selectedDate, setSelectedDate] = useState<number | null>(null)
-  const [selectedPlan, setSelectedPlan] = useState<string>('standard')
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null)
+  const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
+  const [selectedTime, setSelectedTime] = useState<string | null>(null)
   const [currentMonth, setCurrentMonth] = useState(new Date())
-  const [selectedRentals, setSelectedRentals] = useState<{ [key: string]: number }>({})
+  const [selectedRentals, setSelectedRentals] = useState<{[key: string]: number}>({})
 
-  // サンプルデータ（実際にはAPIから取得）
-  const calendarData: { [key: number]: DayData } = {
-    15: {
-      date: 15,
-      available: true,
-      timeSlots: [
-        { time: "15:00", available: true },
-        { time: "16:00", available: false },
-      ]
-    },
-    16: {
-      date: 16,
-      available: true,
-      timeSlots: [
-        { time: "15:00", available: true },
-        { time: "16:00", available: true },
-      ]
-    },
-    17: {
-      date: 17,
-      available: false,
-      timeSlots: []
-    },
-    22: {
-      date: 22,
-      available: true,
-      timeSlots: [
-        { time: "15:00", available: true },
-        { time: "16:00", available: false },
-      ]
-    },
-    23: {
-      date: 23,
-      available: true,
-      timeSlots: [
-        { time: "15:00", available: true },
-        { time: "16:00", available: true },
-      ]
-    },
-    24: {
-      date: 24,
-      available: true,
-      timeSlots: [
-        { time: "15:00", available: false },
-        { time: "16:00", available: true },
-      ]
-    },
+  // カレンダー生成
+  const generateCalendar = (date: Date) => {
+    const year = date.getFullYear()
+    const month = date.getMonth()
+    const firstDay = new Date(year, month, 1)
+    const lastDay = new Date(year, month + 1, 0)
+    const daysInMonth = lastDay.getDate()
+    const startingDayOfWeek = firstDay.getDay()
+
+    const days = []
+    
+    // 前月の日付で埋める
+    for (let i = 0; i < startingDayOfWeek; i++) {
+      days.push(null)
+    }
+    
+    // 今月の日付
+    for (let day = 1; day <= daysInMonth; day++) {
+      days.push(day)
+    }
+    
+    return days
   }
 
   const plans = [
     {
       id: 'light',
-      name: 'ライトプラン',
+      name: 'ライト',
       price: 5000,
-      description: '気軽に学校キャンプ体験'
+      description: '気軽に学校キャンプ体験',
+      features: ['区画サイト利用', 'トイレ・炊事場', 'チェックイン 15:00-18:00'],
+      popular: false
     },
     {
       id: 'standard',
-      name: 'スタンダードプラン',
+      name: 'スタンダード',
       price: 8000,
-      description: '手ぶらで設営！らくらくキャンプ'
+      description: '手ぶらでらくらくキャンプ',
+      features: ['基本ギア貸出付き', 'シャワー施設', 'チェックイン 15:00-18:00'],
+      popular: true
     },
     {
       id: 'premium',
-      name: 'プレミアムプラン',
+      name: 'プレミアム',
       price: 12000,
-      description: '贅沢！廃校グランピング'
+      description: '贅沢廃校グランピング',
+      features: ['グランピングサイト', 'ベッド・ソファ完備', '特別アクティビティ'],
+      popular: false
     }
+  ]
+
+  const timeSlots = [
+    '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00'
   ]
 
   const rentalItems = [
@@ -100,423 +74,435 @@ export default function ReservationPage() {
       id: 'tent',
       name: 'テント（2〜4人用）',
       price: 2000,
-      description: '設営簡単な高品質テント。防水性能も抜群です。',
-      supporter: '田中様'
+      description: '設営簡単な高品質テント',
+      supporter: '田中様',
+      message: 'みんなで楽しいキャンプを！',
+      image: '/20250430044233.JPEG'
     },
     {
       id: 'chair-table',
       name: 'チェア・テーブルセット',
       price: 1500,
-      description: '軽量で持ち運びやすいアウトドア家具セット。',
-      supporter: '山田様'
+      description: '軽量アウトドア家具セット',
+      supporter: '山田様',
+      message: '快適なキャンプライフを応援！',
+      image: '/20250430044445.JPEG'
     },
     {
-      id: 'bbq-grill',
+      id: 'bbq',
       name: 'BBQグリル',
       price: 1800,
-      description: '炭火で楽しむ本格BBQグリル。炭・着火剤付き。',
-      supporter: '佐藤様'
+      description: '炭火BBQグリル（炭・着火剤付き）',
+      supporter: '佐藤様',
+      message: '美味しいBBQをみんなで！',
+      image: '/20250430044800.JPEG'
     },
     {
-      id: 'sleeping-bag',
+      id: 'sleeping',
       name: '寝袋・マット',
       price: 1200,
-      description: '快適な睡眠をサポートする寝袋とマットのセット。'
+      description: '快適睡眠サポートセット',
+      supporter: null,
+      message: null,
+      image: '/20250430043740.JPEG'
     },
     {
       id: 'lantern',
       name: 'ランタン・照明',
       price: 800,
-      description: '夜のキャンプを明るく照らすLEDランタンセット。'
+      description: 'LEDランタンセット',
+      supporter: null,
+      message: null,
+      image: '/20250429045836.JPEG'
     },
     {
-      id: 'cooking-set',
+      id: 'cooking',
       name: '調理器具セット',
       price: 1000,
-      description: 'キャンプ料理に必要な調理器具一式をご用意。'
+      description: 'キャンプ料理必需品一式',
+      supporter: null,
+      message: null,
+      image: '/20250429045817.JPEG'
     }
   ]
 
-  const getDaysInMonth = (date: Date) => {
-    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
+  const updateRentalQuantity = (itemId: string, change: number) => {
+    setSelectedRentals(prev => ({
+      ...prev,
+      [itemId]: Math.max(0, (prev[itemId] || 0) + change)
+    }))
   }
 
-  const getFirstDayOfMonth = (date: Date) => {
-    return new Date(date.getFullYear(), date.getMonth(), 1).getDay()
-  }
-
-  const monthNames = [
-    "1月", "2月", "3月", "4月", "5月", "6月",
-    "7月", "8月", "9月", "10月", "11月", "12月"
-  ]
-
-  const renderCalendar = () => {
-    const daysInMonth = getDaysInMonth(currentMonth)
-    const firstDay = getFirstDayOfMonth(currentMonth)
-    const days = []
-
-    // 空白のセルを追加
-    for (let i = 0; i < firstDay; i++) {
-      days.push(<div key={`empty-${i}`} className="p-2"></div>)
-    }
-
-    // 日付のセルを追加
-    for (let day = 1; day <= daysInMonth; day++) {
-      const dayData = calendarData[day]
-      const isAvailable = dayData?.available || false
-      const isSelected = selectedDate === day
-
-      days.push(
-        <button
-          key={day}
-          onClick={() => isAvailable ? setSelectedDate(day) : null}
-          className={`
-            p-2 text-sm rounded-lg transition-colors
-            ${isSelected 
-              ? 'bg-green-600 text-white' 
-              : isAvailable 
-                ? 'bg-green-100 text-green-800 hover:bg-green-200' 
-                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-            }
-          `}
-          disabled={!isAvailable}
-        >
-          {day}
-        </button>
-      )
-    }
-
-    return days
-  }
-
-  const nextMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))
-    setSelectedDate(null)
-    setSelectedTimeSlot(null)
-  }
-
-  const prevMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))
-    setSelectedDate(null)
-    setSelectedTimeSlot(null)
-  }
-
-  const updateRentalQuantity = (itemId: string, quantity: number) => {
-    setSelectedRentals(prev => {
-      if (quantity === 0) {
-        const newRentals = { ...prev }
-        delete newRentals[itemId]
-        return newRentals
-      }
-      return { ...prev, [itemId]: quantity }
-    })
-  }
-
-  const calculateRentalTotal = () => {
-    return Object.entries(selectedRentals).reduce((total, [itemId, quantity]) => {
-      const item = rentalItems.find(item => item.id === itemId)
-      return total + (item ? item.price * quantity : 0)
-    }, 0)
-  }
-
-  const calculateTotal = () => {
+  const getTotalPrice = () => {
     const planPrice = plans.find(p => p.id === selectedPlan)?.price || 0
-    const rentalTotal = calculateRentalTotal()
-    return planPrice + rentalTotal
+    const rentalPrice = Object.entries(selectedRentals).reduce((total, [itemId, quantity]) => {
+      const item = rentalItems.find(r => r.id === itemId)
+      return total + (item?.price || 0) * quantity
+    }, 0)
+    return planPrice + rentalPrice
   }
+
+  const days = generateCalendar(currentMonth)
+  const monthNames = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-black text-white">
       {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4">
+      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-black/20 border-b border-white/10">
+        <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/" className="text-2xl font-bold text-gray-900">
-              奥房総みらいプロジェクト
+            <Link href="/" className="flex items-center space-x-3 group">
+              <ArrowLeft className="w-6 h-6 text-white/80 group-hover:text-white transition-colors" />
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-xl flex items-center justify-center">
+                  <Tent className="w-6 h-6 text-white" />
+                </div>
+                <span className="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                  奥房総みらいプロジェクト
+                </span>
+              </div>
             </Link>
-            <Link href="/" className="text-gray-600 hover:text-gray-900">
-              ← ホームに戻る
-            </Link>
+            <div className="text-right">
+              <h1 className="text-2xl font-bold text-white">予約フォーム</h1>
+              <p className="text-white/60">廃校キャンプの特別な体験を</p>
+            </div>
           </div>
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl font-light text-gray-900 text-center mb-12">ご予約</h1>
-          
-          <div className="grid lg:grid-cols-2 gap-8">
-            {/* カレンダーセクション */}
-            <Card className="bg-white shadow-lg">
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Calendar className="w-5 h-5 mr-2" />
-                  日程を選択
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {/* 月切り替え */}
-                <div className="flex items-center justify-between mb-6">
-                  <button
-                    onClick={prevMonth}
-                    className="p-2 hover:bg-gray-100 rounded-lg"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-                  <h3 className="text-xl font-medium">
-                    {currentMonth.getFullYear()}年{monthNames[currentMonth.getMonth()]}
-                  </h3>
-                  <button
-                    onClick={nextMonth}
-                    className="p-2 hover:bg-gray-100 rounded-lg"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                </div>
+      {/* Hero Section */}
+      <section className="relative h-96 flex items-center justify-center overflow-hidden mt-20">
+        <div className="absolute inset-0">
+          <Image
+            src="/20250527020429.JPEG"
+            alt="予約背景"
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80"></div>
+        </div>
+        <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
+          <h1 className="text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-white via-emerald-200 to-white bg-clip-text text-transparent">
+            予約する
+          </h1>
+          <p className="text-xl text-white/80 leading-relaxed">
+            懐かしい校庭での特別なキャンプ体験をご予約ください
+          </p>
+        </div>
+      </section>
 
-                {/* 曜日ヘッダー */}
-                <div className="grid grid-cols-7 gap-1 mb-2">
+      <div className="container mx-auto px-6 py-16">
+        <div className="max-w-6xl mx-auto space-y-16">
+          
+          {/* Step 1: プラン選択 */}
+          <section>
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-black mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                Step 1: プラン選択
+              </h2>
+              <p className="text-white/70">あなたにぴったりのキャンプ体験を選択してください</p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-8">
+              {plans.map((plan) => (
+                <Card 
+                  key={plan.id}
+                  className={`relative overflow-hidden cursor-pointer transition-all duration-500 hover:scale-105 ${
+                    selectedPlan === plan.id
+                      ? 'bg-gradient-to-b from-emerald-500/30 to-teal-600/30 border-2 border-emerald-400 shadow-2xl shadow-emerald-500/20'
+                      : plan.popular 
+                        ? 'bg-gradient-to-b from-emerald-500/20 to-teal-600/20 border-2 border-emerald-400/50' 
+                        : 'bg-white/10 border border-white/20'
+                  } backdrop-blur-xl hover:shadow-2xl hover:shadow-emerald-500/10`}
+                  onClick={() => setSelectedPlan(plan.id)}
+                >
+                  {plan.popular && (
+                    <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-emerald-400 to-teal-600 text-center py-2">
+                      <span className="text-sm font-bold text-white">オススメ</span>
+                    </div>
+                  )}
+                  {selectedPlan === plan.id && (
+                    <div className="absolute top-4 right-4 w-8 h-8 bg-emerald-400 rounded-full flex items-center justify-center">
+                      <Check className="w-5 h-5 text-white" />
+                    </div>
+                  )}
+                  <CardContent className={`p-8 ${plan.popular ? 'pt-12' : ''}`}>
+                    <h3 className="text-2xl font-bold text-white mb-2">{plan.name}プラン</h3>
+                    <p className="text-white/70 mb-6">{plan.description}</p>
+                    <div className="mb-8">
+                      <span className="text-4xl font-black text-white">¥{plan.price.toLocaleString()}</span>
+                      <span className="text-white/60 ml-2">/泊</span>
+                    </div>
+                    <ul className="space-y-3">
+                      {plan.features.map((feature, i) => (
+                        <li key={i} className="flex items-center text-white/80">
+                          <div className="w-2 h-2 bg-emerald-400 rounded-full mr-3"></div>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+
+          {/* Step 2: 日付選択 */}
+          <section>
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-black mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                Step 2: 日付選択
+              </h2>
+              <p className="text-white/70">ご希望の宿泊日を選択してください</p>
+            </div>
+            
+            <Card className="bg-white/10 backdrop-blur-xl border border-white/20 max-w-4xl mx-auto">
+              <CardHeader className="text-center">
+                <div className="flex items-center justify-between">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
+                    className="text-white hover:bg-white/10"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                  </Button>
+                  <CardTitle className="text-2xl font-bold text-white">
+                    {currentMonth.getFullYear()}年 {monthNames[currentMonth.getMonth()]}
+                  </CardTitle>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
+                    className="text-white hover:bg-white/10"
+                  >
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="grid grid-cols-7 gap-2 mb-4">
                   {['日', '月', '火', '水', '木', '金', '土'].map((day) => (
-                    <div key={day} className="p-2 text-center text-sm font-medium text-gray-500">
+                    <div key={day} className="text-center text-white/60 font-medium py-2">
                       {day}
                     </div>
                   ))}
                 </div>
-
-                {/* カレンダー */}
-                <div className="grid grid-cols-7 gap-1">
-                  {renderCalendar()}
+                <div className="grid grid-cols-7 gap-2">
+                  {days.map((day, index) => {
+                    if (day === null) {
+                      return <div key={index} className="h-12"></div>
+                    }
+                    
+                    const dateString = `${currentMonth.getFullYear()}-${String(currentMonth.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+                    const isSelected = selectedDate === dateString
+                    const isAvailable = Math.random() > 0.3 // ランダムで空き状況を表示
+                    
+                    return (
+                      <button
+                        key={day}
+                        onClick={() => isAvailable && setSelectedDate(dateString)}
+                        disabled={!isAvailable}
+                        className={`h-12 rounded-xl font-medium transition-all duration-300 ${
+                          isSelected
+                            ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg'
+                            : isAvailable
+                              ? 'bg-white/10 text-white hover:bg-white/20 hover:scale-105'
+                              : 'bg-gray-600/20 text-gray-500 cursor-not-allowed'
+                        }`}
+                      >
+                        {day}
+                      </button>
+                    )
+                  })}
                 </div>
-
-                {/* 凡例 */}
-                <div className="mt-6 flex items-center space-x-4 text-sm">
-                  <div className="flex items-center">
-                    <div className="w-4 h-4 bg-green-100 rounded mr-2"></div>
-                    <span>空きあり</span>
+                <div className="flex items-center justify-center space-x-6 mt-6 text-sm">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-4 h-4 bg-gradient-to-r from-emerald-500 to-teal-600 rounded"></div>
+                    <span className="text-white/70">選択中</span>
                   </div>
-                  <div className="flex items-center">
-                    <div className="w-4 h-4 bg-gray-100 rounded mr-2"></div>
-                    <span>満室</span>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-4 h-4 bg-white/10 rounded"></div>
+                    <span className="text-white/70">空きあり</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-4 h-4 bg-gray-600/20 rounded"></div>
+                    <span className="text-white/70">満室</span>
                   </div>
                 </div>
               </CardContent>
             </Card>
+          </section>
 
-            {/* 時間・プラン選択セクション */}
-            <div className="space-y-6">
-              {/* プラン選択 */}
-              <Card className="bg-white shadow-lg">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Users className="w-5 h-5 mr-2" />
-                    プラン選択
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {plans.map((plan) => (
-                      <button
-                        key={plan.id}
-                        onClick={() => setSelectedPlan(plan.id)}
-                        className={`
-                          w-full p-4 rounded-lg border-2 text-left transition-colors
-                          ${selectedPlan === plan.id 
-                            ? 'border-green-600 bg-green-50' 
-                            : 'border-gray-200 hover:border-gray-300'
-                          }
-                        `}
-                      >
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <h4 className="font-medium text-gray-900">{plan.name}</h4>
-                            <p className="text-sm text-gray-600">{plan.description}</p>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-lg font-bold text-green-600">¥{plan.price.toLocaleString()}</div>
-                            <div className="text-sm text-gray-500">/泊</div>
-                          </div>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+          {/* Step 3: チェックイン時間 */}
+          {selectedDate && (
+            <section>
+              <div className="text-center mb-12">
+                <h2 className="text-4xl font-black mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                  Step 3: チェックイン時間
+                </h2>
+                <p className="text-white/70">ご希望のチェックイン時間を選択してください</p>
+              </div>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 max-w-4xl mx-auto">
+                {timeSlots.map((time) => (
+                  <button
+                    key={time}
+                    onClick={() => setSelectedTime(time)}
+                    className={`p-4 rounded-xl font-medium transition-all duration-300 ${
+                      selectedTime === time
+                        ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg scale-105'
+                        : 'bg-white/10 text-white hover:bg-white/20 hover:scale-105'
+                    } backdrop-blur-md border border-white/20`}
+                  >
+                    <Clock className="w-5 h-5 mx-auto mb-2" />
+                    {time}
+                  </button>
+                ))}
+              </div>
+            </section>
+          )}
 
-              {/* 時間選択 */}
-              {selectedDate && (
-                <Card className="bg-white shadow-lg">
-                  <CardHeader>
-                    <CardTitle className="flex items-center">
-                      <Clock className="w-5 h-5 mr-2" />
-                      チェックイン時間選択
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600 mb-4">
-                      {currentMonth.getFullYear()}年{monthNames[currentMonth.getMonth()]}{selectedDate}日
-                    </p>
-                    <div className="grid grid-cols-2 gap-3">
-                      {calendarData[selectedDate]?.timeSlots.map((slot) => (
-                        <button
-                          key={slot.time}
-                          onClick={() => slot.available ? setSelectedTimeSlot(slot.time) : null}
-                          disabled={!slot.available}
-                          className={`
-                            p-3 rounded-lg border-2 transition-colors flex items-center justify-center
-                            ${selectedTimeSlot === slot.time
-                              ? 'border-green-600 bg-green-50'
-                              : slot.available
-                                ? 'border-gray-200 hover:border-gray-300'
-                                : 'border-gray-200 bg-gray-100 cursor-not-allowed'
-                            }
-                          `}
-                        >
-                          <span className={slot.available ? 'text-gray-900' : 'text-gray-400'}>
-                            {slot.time}
-                          </span>
-                          {slot.available ? (
-                            <Check className="w-4 h-4 ml-2 text-green-600" />
-                          ) : (
-                            <X className="w-4 h-4 ml-2 text-red-400" />
-                          )}
-                        </button>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* レンタル用品選択 */}
-              <Card className="bg-white shadow-lg">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <ShoppingBag className="w-5 h-5 mr-2" />
-                    レンタル用品（オプション）
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {rentalItems.map((item) => (
-                      <div key={item.id} className="border rounded-lg p-4">
-                        <div className="flex justify-between items-start mb-2">
-                          <div className="flex-1">
-                            <h4 className="font-medium text-gray-900 flex items-center">
-                              {item.name}
-                              {item.supporter && (
-                                <span className="ml-2 bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
-                                  {item.supporter}提供
-                                </span>
-                              )}
-                            </h4>
-                            <p className="text-sm text-gray-600 mt-1">{item.description}</p>
-                            <p className="text-lg font-bold text-green-600 mt-2">¥{item.price.toLocaleString()}/泊</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm text-gray-600">数量:</span>
-                          <div className="flex items-center space-x-3">
-                            <button
-                              onClick={() => updateRentalQuantity(item.id, Math.max(0, (selectedRentals[item.id] || 0) - 1))}
-                              className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center"
-                              disabled={(selectedRentals[item.id] || 0) === 0}
-                            >
-                              -
-                            </button>
-                            <span className="w-8 text-center font-medium">
-                              {selectedRentals[item.id] || 0}
-                            </span>
-                            <button
-                              onClick={() => updateRentalQuantity(item.id, (selectedRentals[item.id] || 0) + 1)}
-                              className="w-8 h-8 rounded-full bg-green-600 hover:bg-green-700 text-white flex items-center justify-center"
-                            >
-                              +
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  {Object.keys(selectedRentals).length > 0 && (
-                    <div className="mt-6 p-4 bg-green-50 rounded-lg">
-                      <h5 className="font-medium text-gray-900 mb-2">選択中のレンタル用品</h5>
-                      {Object.entries(selectedRentals).map(([itemId, quantity]) => {
-                        const item = rentalItems.find(i => i.id === itemId)
-                        if (!item) return null
-                        return (
-                          <div key={itemId} className="flex justify-between text-sm">
-                            <span>{item.name} × {quantity}</span>
-                            <span>¥{(item.price * quantity).toLocaleString()}</span>
-                          </div>
-                        )
-                      })}
-                      <div className="border-t pt-2 mt-2">
-                        <div className="flex justify-between font-medium">
-                          <span>レンタル小計</span>
-                          <span>¥{calculateRentalTotal().toLocaleString()}</span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* 予約確認 */}
-              {selectedDate && selectedTimeSlot && (
-                <Card className="bg-white shadow-lg">
-                  <CardHeader>
-                    <CardTitle>予約内容確認</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3 mb-6">
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">日程</span>
-                        <span className="font-medium">
-                          {currentMonth.getFullYear()}年{monthNames[currentMonth.getMonth()]}{selectedDate}日
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">チェックイン</span>
-                        <span className="font-medium">{selectedTimeSlot}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">プラン</span>
-                        <span className="font-medium">
-                          {plans.find(p => p.id === selectedPlan)?.name}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">プラン料金</span>
-                        <span className="font-medium">
-                          ¥{plans.find(p => p.id === selectedPlan)?.price.toLocaleString()}
-                        </span>
-                      </div>
-                      {Object.keys(selectedRentals).length > 0 && (
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">レンタル用品</span>
-                          <span className="font-medium">
-                            ¥{calculateRentalTotal().toLocaleString()}
-                          </span>
+          {/* Step 4: レンタル用品 */}
+          {selectedTime && (
+            <section>
+              <div className="text-center mb-12">
+                <h2 className="text-4xl font-black mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                  Step 4: レンタル用品
+                </h2>
+                <p className="text-white/70">必要なレンタル用品を選択してください（オプション）</p>
+              </div>
+              
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {rentalItems.map((item) => (
+                  <Card key={item.id} className="bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-white/15 transition-all duration-300 hover:scale-105 group overflow-hidden">
+                    <div className="relative h-48 overflow-hidden">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                      {item.supporter && (
+                        <div className="absolute top-3 right-3 bg-emerald-500/90 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-medium">
+                          支援者様提供
                         </div>
                       )}
-                      <div className="border-t pt-3">
-                        <div className="flex justify-between text-lg font-bold">
-                          <span>合計金額</span>
-                          <span className="text-green-600">
-                            ¥{calculateTotal().toLocaleString()}
+                    </div>
+                    <CardContent className="p-6">
+                      <h4 className="text-xl font-bold text-white mb-2">{item.name}</h4>
+                      <p className="text-white/70 mb-4">{item.description}</p>
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-2xl font-bold text-emerald-400">¥{item.price.toLocaleString()}</span>
+                        <span className="text-white/60">/泊</span>
+                      </div>
+                      
+                      {item.supporter && (
+                        <div className="bg-emerald-500/20 backdrop-blur-md p-3 rounded-xl mb-4 border border-emerald-400/30">
+                          <p className="text-sm text-emerald-300 font-medium">支援者：{item.supporter}</p>
+                          <p className="text-xs text-emerald-200">「{item.message}」</p>
+                        </div>
+                      )}
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <button
+                            onClick={() => updateRentalQuantity(item.id, -1)}
+                            className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+                            disabled={!selectedRentals[item.id]}
+                          >
+                            -
+                          </button>
+                          <span className="text-white font-medium w-8 text-center">
+                            {selectedRentals[item.id] || 0}
                           </span>
+                          <button
+                            onClick={() => updateRentalQuantity(item.id, 1)}
+                            className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+                          >
+                            +
+                          </button>
+                        </div>
+                        <span className="text-white/70 text-sm">
+                          ¥{((selectedRentals[item.id] || 0) * item.price).toLocaleString()}
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* 予約確認 */}
+          {selectedPlan && selectedDate && selectedTime && (
+            <section>
+              <div className="text-center mb-12">
+                <h2 className="text-4xl font-black mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                  予約確認
+                </h2>
+                <p className="text-white/70">ご予約内容をご確認ください</p>
+              </div>
+              
+              <Card className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl border border-white/20 max-w-2xl mx-auto">
+                <CardContent className="p-8">
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center pb-4 border-b border-white/20">
+                      <span className="text-white/70">プラン</span>
+                      <span className="text-white font-medium">
+                        {plans.find(p => p.id === selectedPlan)?.name}プラン
+                      </span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center pb-4 border-b border-white/20">
+                      <span className="text-white/70">宿泊日</span>
+                      <span className="text-white font-medium">{selectedDate}</span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center pb-4 border-b border-white/20">
+                      <span className="text-white/70">チェックイン時間</span>
+                      <span className="text-white font-medium">{selectedTime}</span>
+                    </div>
+                    
+                                         {Object.entries(selectedRentals).filter(([, quantity]) => quantity > 0).length > 0 && (
+                      <div className="pb-4 border-b border-white/20">
+                        <span className="text-white/70 block mb-3">レンタル用品</span>
+                        <div className="space-y-2">
+                                                     {Object.entries(selectedRentals)
+                             .filter(([, quantity]) => quantity > 0)
+                             .map(([itemId, quantity]) => {
+                              const item = rentalItems.find(r => r.id === itemId)
+                              return (
+                                <div key={itemId} className="flex justify-between text-sm">
+                                  <span className="text-white/80">{item?.name} × {quantity}</span>
+                                  <span className="text-white">¥{((item?.price || 0) * quantity).toLocaleString()}</span>
+                                </div>
+                              )
+                            })}
                         </div>
                       </div>
+                    )}
+                    
+                    <div className="flex justify-between items-center text-xl font-bold">
+                      <span className="text-white">合計金額</span>
+                      <span className="text-emerald-400">¥{getTotalPrice().toLocaleString()}</span>
                     </div>
-                    <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3">
-                      予約手続きに進む
-                    </Button>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
-          </div>
+                  </div>
+                  
+                  <Button className="w-full mt-8 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-4 text-lg font-bold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/25">
+                    この内容で予約する
+                  </Button>
+                  
+                  <p className="text-center text-white/60 text-sm mt-4">
+                    予約確定後、確認メールをお送りいたします
+                  </p>
+                </CardContent>
+              </Card>
+            </section>
+          )}
         </div>
       </div>
     </div>
   )
-} 
+}
