@@ -1,0 +1,45 @@
+<svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="lightGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.8" />
+      <stop offset="50%" style="stop-color:#FFA500;stop-opacity:0.5" />
+      <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:0.2" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background (night scene) -->
+  <rect width="300" height="200" fill="#191970"/>
+  
+  <!-- Ground -->
+  <ellipse cx="150" cy="185" rx="140" ry="15" fill="#2F4F4F"/>
+  
+  <!-- Lantern light glow -->
+  <circle cx="150" cy="100" r="80" fill="url(#lightGlow)"/>
+  
+  <!-- Lantern body -->
+  <rect x="130" y="80" width="40" height="60" fill="#2F4F4F" rx="5"/>
+  <rect x="135" y="85" width="30" height="50" fill="#F0F0F0" rx="3"/>
+  
+  <!-- Lantern top -->
+  <rect x="125" y="75" width="50" height="8" fill="#696969" rx="4"/>
+  <rect x="140" y="65" width="20" height="15" fill="#696969" rx="2"/>
+  
+  <!-- Lantern handle -->
+  <path d="M 140 65 Q 120 50 140 35 Q 160 50 160 65" stroke="#696969" stroke-width="3" fill="none"/>
+  
+  <!-- Light rays -->
+  <line x1="150" y1="50" x2="150" y2="30" stroke="#FFD700" stroke-width="2"/>
+  <line x1="180" y1="70" x2="195" y2="55" stroke="#FFD700" stroke-width="2"/>
+  <line x1="190" y1="100" x2="210" y2="100" stroke="#FFD700" stroke-width="2"/>
+  <line x1="180" y1="130" x2="195" y2="145" stroke="#FFD700" stroke-width="2"/>
+  <line x1="120" y1="70" x2="105" y2="55" stroke="#FFD700" stroke-width="2"/>
+  <line x1="110" y1="100" x2="90" y2="100" stroke="#FFD700" stroke-width="2"/>
+  <line x1="120" y1="130" x2="105" y2="145" stroke="#FFD700" stroke-width="2"/>
+  
+  <!-- Stars -->
+  <circle cx="50" cy="30" r="1.5" fill="#FFD700"/>
+  <circle cx="80" cy="20" r="1" fill="#FFD700"/>
+  <circle cx="220" cy="25" r="1.5" fill="#FFD700"/>
+  <circle cx="250" cy="40" r="1" fill="#FFD700"/>
+  <circle cx="270" cy="60" r="1.5" fill="#FFD700"/>
+</svg> 
