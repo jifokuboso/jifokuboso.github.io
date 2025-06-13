@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { MapPin, Clock, Users, Tent, Flame, Droplets, Car, Phone, Mail, Star } from "lucide-react"
+import { MapPin, Clock, Users, Tent, Flame, Droplets, Car, Mail, Star } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -86,7 +86,7 @@ export default function HomePage() {
               <br />
               非日常にリセットできるキャンプ体験と、校舎を眺めるロケーションでの
               <br />
-              テントサウナで "ととのう" 体験をお楽しみください。
+              テントサウナで &quot;ととのう&quot; 体験をお楽しみください。
             </p>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="text-center">
@@ -351,7 +351,7 @@ export default function HomePage() {
                 <p className="text-lg text-gray-600 leading-relaxed">
                   校舎を眺める絶好のロケーションで、薪ストーブ式テントサウナをお楽しみいただけます。
                   地元の間伐材を使った薪で温められたサウナで汗を流し、地下水を利用した水風呂で身体を冷やし、
-                  外気浴スペースで里山の風を感じながら "ととのう" 体験をどうぞ。
+                  外気浴スペースで里山の風を感じながら &quot;ととのう&quot; 体験をどうぞ。
                 </p>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
@@ -673,7 +673,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="text-center">
             <h4 className="text-2xl font-bold mb-4">奥房総みらいプロジェクト</h4>
-            <p className="text-stone-400 mb-4">古民家とロッジと廃校活用から始まる新しい"つながり"づくり</p>
+            <p className="text-stone-400 mb-4">古民家とロッジと廃校活用から始まる新しい&quot;つながり&quot;づくり</p>
             <p className="text-stone-400">〒298-0202 千葉県夷隅郡大多喜町下大多喜１００（旧上瀑小学校）</p>
           </div>
         </div>
