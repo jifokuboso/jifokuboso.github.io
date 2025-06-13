@@ -64,11 +64,26 @@ export default {
         'scroll-down': {
           '0%': { transform: 'translateY(-50%)' },
           '100%': { transform: 'translateY(0)' }
+        },
+        'scroll-left': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' }
+        },
+        'scroll-right': {
+          '0%': { transform: 'translateX(-50%)' },
+          '100%': { transform: 'translateX(0)' }
+        },
+        'scroll-left-slow': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' }
         }
       },
       animation: {
         'scroll-up': 'scroll-up 20s linear infinite',
-        'scroll-down': 'scroll-down 20s linear infinite'
+        'scroll-down': 'scroll-down 20s linear infinite',
+        'scroll-left': 'scroll-left 30s linear infinite',
+        'scroll-right': 'scroll-right 25s linear infinite',
+        'scroll-left-slow': 'scroll-left-slow 35s linear infinite'
       }
     }
   },
