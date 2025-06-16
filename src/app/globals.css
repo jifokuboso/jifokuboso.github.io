@@ -20,7 +20,26 @@
 }
 
 body {
-  background: var(--background);
+  background: #000000;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* セクションの初期状態を保証 */
+section {
+  background-color: #000000;
+}
+
+/* 画像ギャラリーのスライドアニメーション */
+@keyframes slideLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.gallery-slide {
+  animation: slideLeft 60s linear infinite;
 }
