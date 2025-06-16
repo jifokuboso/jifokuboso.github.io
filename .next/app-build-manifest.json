@@ -1,36 +1,20 @@
 {
   "pages": {
-    "/_not-found/page": [
-      "static/chunks/webpack-29ebadaebe2fcb3f.js",
-      "static/chunks/4bd1b696-55881cbbe4b73590.js",
-      "static/chunks/684-e14d371ce8e119aa.js",
-      "static/chunks/main-app-25603935188eba4c.js",
-      "static/chunks/app/_not-found/page-6026d07a11b56abf.js"
-    ],
-    "/layout": [
-      "static/chunks/webpack-29ebadaebe2fcb3f.js",
-      "static/chunks/4bd1b696-55881cbbe4b73590.js",
-      "static/chunks/684-e14d371ce8e119aa.js",
-      "static/chunks/main-app-25603935188eba4c.js",
-      "static/css/0842bd2cf9759c1e.css",
-      "static/chunks/app/layout-1a887f8d862ce86b.js"
-    ],
-    "/reservation/page": [
-      "static/chunks/webpack-29ebadaebe2fcb3f.js",
-      "static/chunks/4bd1b696-55881cbbe4b73590.js",
-      "static/chunks/684-e14d371ce8e119aa.js",
-      "static/chunks/main-app-25603935188eba4c.js",
-      "static/chunks/989-f7b42dde3176bd97.js",
-      "static/chunks/app/reservation/page-0e1527b052ee49a6.js"
-    ],
     "/page": [
-      "static/chunks/webpack-29ebadaebe2fcb3f.js",
-      "static/chunks/4bd1b696-55881cbbe4b73590.js",
-      "static/chunks/684-e14d371ce8e119aa.js",
-      "static/chunks/main-app-25603935188eba4c.js",
-      "static/chunks/989-f7b42dde3176bd97.js",
-      "static/chunks/766-02232292eb853184.js",
-      "static/chunks/app/page-00d1fa2d2b2f7eff.js"
+      "static/chunks/node_modules_next_dist_1a6ee436._.js",
+      "static/chunks/src_app_favicon_ico_mjs_8a7a8fdc._.js",
+      "static/chunks/[root-of-the-server]__8ebb6d4b._.css",
+      "static/chunks/src_app_layout_tsx_c0237562._.js",
+      "static/chunks/src_ed39b48c._.js",
+      "static/chunks/node_modules_825caca6._.js",
+      "static/chunks/src_app_page_tsx_8450df25._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_fd44f5a4._.js",
+      "static/chunks/node_modules_next_dist_compiled_2ce9398a._.js",
+      "static/chunks/node_modules_next_dist_client_8f19e6fb._.js",
+      "static/chunks/node_modules_next_dist_2ecbf5fa._.js",
+      "static/chunks/node_modules_@swc_helpers_cjs_00636ac3._.js",
+      "static/chunks/_e69f0d32._.js",
+      "static/chunks/_93808211._.js"
     ]
   }
 }
