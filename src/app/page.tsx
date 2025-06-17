@@ -152,17 +152,17 @@ export default function HomePage() {
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl md:text-5xl font-bold mb-12 text-white">
-              廃校から生まれた<br />
-              新しい体験
+              大自然と懐かしい場所で<br />
+              非日常の体験を
             </h2>
             
             <div className="grid md:grid-cols-2 gap-12 mb-16">
               <div className="space-y-6 text-left">
                 <p className="text-lg text-gray-300 leading-relaxed">
-                  それぞれの時間や体験に合わせてやさしく寄り添いやすい施設として、宿泊から日帰りまで、カフェや貸切風呂、サウナ利用のみの小休憩や近隣施設踏まえて宿泊までご堪能いただけます。
+                  キャンプ場＆テントサウナ施設として生まれ変わった旧上瀑小学校。大自然に囲まれた全面芝生の広大な校庭で自由にキャンプを楽しみませんか？
                 </p>
                 <p className="text-lg text-gray-300 leading-relaxed">
-                  また、奥房総みらいプロジェクトならではの、地元食材を活用した食プランから、貸切足湯付きサイトなど普段では体験ができない時間をご提供。
+                  キャンプ場利用では３つのプランから選択可能。お客様のスタイルに合わせてお選びいただけます。
                 </p>
               </div>
               <div className="space-y-6 text-left">
@@ -221,8 +221,8 @@ export default function HomePage() {
         <div className="container mx-auto px-6">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">あなたにぴったりのキャンプ体験を</h2>
-              <p className="text-xl text-gray-300">初めての方から本格的なアウトドア体験を求める方まで、様々なニーズに合わせた<br/>３つのプランをご用意しています。</p>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">自分に合ったキャンプ体験を</h2>
+              <p className="text-xl text-gray-300">初めての方から本格的なアウトドア体験を求める方まで<br/>様々なニーズに合わせた３つのプランをご用意しています。</p>
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
@@ -240,7 +240,7 @@ export default function HomePage() {
                 },
                 {
                   name: "スタンダードプラン", 
-                  subtitle: "手ぶらで設営！らくらくキャンプ",
+                  subtitle: "手ぶらで設営らくらくキャンプ",
                   price: "¥8,000",
                   period: "/泊",
                   features: [
@@ -252,13 +252,13 @@ export default function HomePage() {
                 },
                 {
                   name: "プレミアムプラン",
-                  subtitle: "贅沢！廃校グランピング",
+                  subtitle: "贅沢廃校グランピング",
                   price: "¥12,000",
                   period: "/泊",
                   features: [
                     "グランピングサイト",
                     "ベッド、ソファ完備",
-                    "特別アクティビティ"
+                    "テントサウナが追加料金なしで利用可能"
                   ],
                   recommended: false
                 }
@@ -323,29 +323,29 @@ export default function HomePage() {
                 {
                   style: "STYLE 01",
                   title: "初めてのキャンプ",
-                  desc: "キャンプが初めての方でも安心して楽しめるよう、最高のおもてなしと共に丁寧にご案内いたします。",
-                  tags: ["手ぶらプラン", "スタッフサポート", "初心者向け設備"],
+                  desc: "キャンプが初めての方でも安心して楽しめるよう、キャンプ用品の貸し出しも行っています。",
+                  tags: ["手ぶらキャンプ", "キャンプ用品貸出", "初心者向け設備"],
                   emoji: "初めてのキャンプ"
                 },
                 {
                   style: "STYLE 02", 
                   title: "家族との時間",
-                  desc: "家族みんなが笑顔になれる場所。子供たちは遊具エリアで自由に遊んだり、家族の絆を深める贅沢な時間が待っています。",
-                  tags: ["遊具エリア", "ファミリーサイト", "貸切風呂"],
+                  desc: "家族みんなが笑顔になれる場所。子供向け遊具エリアの利用でアクティビティも充実。",
+                  tags: ["遊具エリア", "ファミリーサイト", "廃校アクティビティ"],
                   emoji: "家族との時間"
                 },
                 {
                   style: "STYLE 03",
                   title: "愛犬との旅", 
-                  desc: "広々としたドッグランサイトで、愛犬が思う存分駆け回れます。愛犬との絆を深める体験をお楽しみください。",
-                  tags: ["ドッグランサイト", "ペット同伴OK", "足湯スペース"],
+                  desc: "広々としたドッグランで、愛犬が思う存分駆け回れます。",
+                  tags: ["ドッグラン", "ペット同伴OK", "足洗い場"],
                   emoji: "愛犬との旅"
                 },
                 {
                   style: "STYLE 04",
                   title: "日帰りの癒し",
-                  desc: "短時間でも自然に囲まれた静かな空間で贅沢な日帰り体験を提供します。都会では味わえないリフレッシュを。",
-                  tags: ["貸切サウナ", "BBQプラン", "日帰り温泉"],
+                  desc: "短時間でも自然に囲まれた静かな空間で贅沢な日帰り体験を。テントサウナで身も心も整う。",
+                  tags: ["テントサウナ", "BBQプラン", "日帰り温泉"],
                   emoji: "日帰りの癒し"
                 }
               ].map((experience, index) => (
@@ -385,14 +385,12 @@ export default function HomePage() {
             
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { icon: "🛁", name: "貸切露天風呂", desc: "自然に囲まれた癒しの空間" },
-                { icon: "🧖‍♂️", name: "貸切サウナ", desc: "プライベートなサウナ体験" },
+                { icon: "🧖‍♂️", name: "テントサウナ", desc: "非日常のサウナ体験" },
                 { icon: "🎪", name: "遊具エリア", desc: "お子様も安心して遊べる" },
                 { icon: "⛺", name: "キャンプサイト", desc: "様々なタイプをご用意" },
-                { icon: "🐕", name: "ドッグランサイト", desc: "愛犬と一緒に過ごせる" },
+                { icon: "🐕", name: "ドッグラン", desc: "愛犬と一緒に過ごせる" },
                 { icon: "🎒", name: "手ぶらプラン", desc: "初心者も安心のプラン" },
-                { icon: "🍖", name: "食サービス", desc: "地元食材を活用" },
-                { icon: "🔒", name: "ALSOK", desc: "24時間セキュリティ" }
+                { icon: "💻", name: "コワーキング", desc: "急な仕事にも対応可能" }
               ].map((facility, index) => (
                 <div key={index} className="group text-center p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300">
                   <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -427,13 +425,13 @@ export default function HomePage() {
                     <div className="flex items-start space-x-3">
                       <MapPin className="w-5 h-5 text-white mt-1 flex-shrink-0" />
                       <div>
-                        <p className="text-white font-semibold">奥房総みらいプロジェクト</p>
+                        <p className="text-white font-semibold">上瀑キャンプ＆テントサウナ場</p>
                         <p className="text-gray-300">〒298-0202 千葉県夷隅郡大多喜町下大多喜１００</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Phone className="w-5 h-5 text-white flex-shrink-0" />
-                      <p className="text-gray-300">0475-78-3050</p>
+                      <p className="text-gray-300">123-4567-890</p>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Mail className="w-5 h-5 text-white flex-shrink-0" />
@@ -452,8 +450,7 @@ export default function HomePage() {
                     <div>
                       <p className="text-white font-semibold mb-2">🚃 公共交通機関の場合</p>
                       <p className="text-gray-300 text-sm">
-                        いすみ鉄道「大多喜駅」よりタクシー約10分<br />
-                        ※送迎サービスもございます（要予約）
+                        いすみ鉄道「大多喜駅」よりタクシー約10分
                       </p>
                     </div>
                   </div>
@@ -485,12 +482,11 @@ export default function HomePage() {
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              あなたの特別な時間を<br />
-              お待ちしています
+              大自然の中で非日常を味わいませんか？
             </h2>
             <p className="text-xl text-gray-300 mb-12 leading-relaxed">
               日常を離れ、自然の中で心も体もリフレッシュ。<br />
-              奥房総みらいプロジェクトで、忘れられない思い出を作りませんか？
+              上瀑キャンプ＆テントサウナ場で、忘れられない思い出を作りませんか？
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
@@ -501,7 +497,7 @@ export default function HomePage() {
                 variant="ghost" 
                 className="text-white border-2 border-white/50 hover:bg-white/10 px-12 py-4 text-lg font-light rounded-full transition-all duration-300"
               >
-                資料請求
+                コミュニティに参加する
               </Button>
             </div>
 
@@ -540,7 +536,7 @@ export default function HomePage() {
                 <div>
                   <h4 className="text-lg font-semibold text-white mb-4">リンク</h4>
                   <div className="space-y-2">
-                    {['プラン', '体験スタイル', '施設・設備', 'アクセス', 'よくある質問'].map((link) => (
+                    {['プラン', '体験スタイル', '施設・設備', 'アクセス'].map((link) => (
                       <a key={link} href="#" className="block text-gray-400 hover:text-white transition-colors">
                         {link}
                       </a>
@@ -553,15 +549,15 @@ export default function HomePage() {
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3">
                       <Phone className="w-4 h-4 text-gray-400" />
-                      <span className="text-gray-400">0475-78-3050</span>
+                      <p className="text-gray-400">123-4567-890</p>
                     </div>
                     <div className="flex items-center space-x-3">
                       <Mail className="w-4 h-4 text-gray-400" />
-                      <span className="text-gray-400">jifgv.tools@gmail.com</span>
+                      <p className="text-gray-400">jifgv.tools@gmail.com</p>
                     </div>
                     <div className="flex items-start space-x-3">
                       <MapPin className="w-4 h-4 text-gray-400 mt-1" />
-                      <span className="text-gray-400 text-sm">〒298-0202 千葉県夷隅郡大多喜町下大多喜１００</span>
+                      <p className="text-gray-400 text-sm">〒298-0202 千葉県夷隅郡大多喜町下大多喜１００</p>
                     </div>
                   </div>
                 </div>
@@ -570,7 +566,7 @@ export default function HomePage() {
               {/* Footer Bottom */}
               <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
                 <p className="text-gray-400 text-sm">
-                  © 2025 奥房総みらいプロジェクト. All rights reserved.
+                  {/* © 2025 奥房総みらいプロジェクト. All rights reserved. */}
                 </p>
                 <div className="flex space-x-6 mt-4 md:mt-0">
                   <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">プライバシーポリシー</a>
