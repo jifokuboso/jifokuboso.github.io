@@ -43,3 +43,8 @@ section {
 .gallery-slide {
   animation: slideLeft 60s linear infinite;
 }
+
+/* 80秒で右から左にスライドするアニメーション */
+.animate-slide-left-slow {
+  animation: slideLeft 80s linear infinite;
+}
