@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button"
 import { MapPin, Phone, Mail, Calendar, Users, TreePine, Star } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
 import { useState, useEffect } from "react"
 
 export default function HomePage() {
@@ -16,23 +15,20 @@ export default function HomePage() {
     setIsClient(true)
     
     const handleScroll = () => {
-      const scrollPosition = window.scrollY
-      const windowHeight = window.innerHeight
-      
-      setScrollY(scrollPosition)
-      
-      // フッターを表示するかどうかを判定（画面の2倍スクロールしたら表示）
-      setShowFooter(scrollPosition > windowHeight * 1.5)
+      if (typeof window !== 'undefined') {
+        const scrollPosition = window.scrollY
+        const windowHeight = window.innerHeight
+        
+        setScrollY(scrollPosition)
+        
+        // フッターを表示するかどうかを判定（画面の2倍スクロールしたら表示）
+        setShowFooter(scrollPosition > windowHeight * 1.5)
+      }
     }
     
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  // アニメーション無効化（動画を完全に覆うため）
-  const getSlideUpTransform = () => {
-    return `translateY(0px)` // 動かさない
-  }
 
   return (
     <div className="min-h-screen bg-black text-white relative">
@@ -54,7 +50,7 @@ export default function HomePage() {
         <div 
           className="absolute inset-0 bg-black/40"
           style={{
-            opacity: isClient 
+            opacity: isClient && typeof window !== 'undefined'
               ? Math.min(scrollY / (window.innerHeight * 0.3), 0.9)
               : 0
           }}
@@ -78,25 +74,16 @@ export default function HomePage() {
                 <span className="text-xl font-bold tracking-wide">奥房総みらい</span>
               </div>
 
-              {/* Language Toggle */}
-              <div className="flex items-center space-x-1 text-sm font-light">
-                <span className="text-white font-semibold px-2 py-1 bg-white/20 rounded">JP</span>
-                <span className="text-white/60">|</span>
-                <span className="text-white/60 hover:text-white cursor-pointer transition-colors">EN</span>
-              </div>
-
               {/* Desktop Navigation */}
               <div className="hidden lg:flex items-center space-x-8 text-sm font-light">
+                <a href="#plans" className="text-white/80 hover:text-white transition-colors">プラン</a>
                 <a href="#experience" className="text-white/80 hover:text-white transition-colors">体験</a>
-                <a href="#accommodation" className="text-white/80 hover:text-white transition-colors">宿泊</a>
                 <a href="#facilities" className="text-white/80 hover:text-white transition-colors">施設</a>
                 <a href="#access" className="text-white/80 hover:text-white transition-colors">アクセス</a>
                 
-        <Link href="/reservation">
-                  <Button className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border border-white/30 px-6 py-2 text-sm font-light">
-                    ご予約
-                  </Button>
-                </Link>
+                <Button className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border border-white/30 px-6 py-2 text-sm font-light">
+                  ご予約
+                </Button>
               </div>
 
               {/* Mobile Menu Button */}
@@ -113,15 +100,13 @@ export default function HomePage() {
             {/* Mobile Menu */}
             <div className={`lg:hidden mt-4 pb-4 ${isMenuOpen ? 'block' : 'hidden'}`}>
               <div className="flex flex-col space-y-4 text-sm font-light">
+                <a href="#plans" className="text-white/80 hover:text-white transition-colors">プラン</a>
                 <a href="#experience" className="text-white/80 hover:text-white transition-colors">体験</a>
-                <a href="#accommodation" className="text-white/80 hover:text-white transition-colors">宿泊</a>
                 <a href="#facilities" className="text-white/80 hover:text-white transition-colors">施設</a>
                 <a href="#access" className="text-white/80 hover:text-white transition-colors">アクセス</a>
-                <Link href="/reservation">
-                  <Button className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border border-white/30 px-6 py-2 text-sm font-light w-full">
-                    ご予約
-                  </Button>
-                </Link>
+                <Button className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white border border-white/30 px-6 py-2 text-sm font-light w-full">
+                  ご予約
+                </Button>
               </div>
             </div>
           </div>
@@ -147,7 +132,7 @@ export default function HomePage() {
         {/* Scroll Indicator */}
         <div className="absolute bottom-25 left-1/2 transform -translate-x-1/2 text-white/70 animate-bounce z-20">
           <div className="flex flex-col items-center">
-            <span className="text-sm mb-2 font-light">スクロール</span>
+            <span className="text-sm mb-2 font-light">スクロールしてご覧ください</span>
             <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
               <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-pulse"></div>
             </div>
@@ -178,8 +163,8 @@ export default function HomePage() {
                 </p>
                 <p className="text-lg text-gray-300 leading-relaxed">
                   また、奥房総みらいプロジェクトならではの、地元食材を活用した食プランから、貸切足湯付きサイトなど普段では体験ができない時間をご提供。
-        </p>
-      </div>
+                </p>
+              </div>
               <div className="space-y-6 text-left">
                 <p className="text-lg text-gray-300 leading-relaxed">
                   日常とは違ったプライベート利用や大切な人と過ごす、温かいひとときの時間と体験を提供する場所として、心置きなく休める「あなたの休息地」として、おもてなし致します。
@@ -203,146 +188,202 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          </div>
-        </section>
+        </div>
 
-      {/* Dynamic Image Gallery - 横スライド・ゆっくり自動 */}
-      <section 
-        className="py-16 overflow-hidden bg-black z-20 -mt-5"
-      >
-        <div className="relative w-full">
-          <div 
-            className="flex space-x-6 gallery-slide will-change-transform" 
-            style={{ 
-              width: 'max-content'
-            }}
-          >
-            {[
-              '/20250527041351.JPEG',
-              '/20250527041332.JPEG',
-              '/20250527041256.JPEG',
-              '/20250527041143.JPEG',
-              '/20250430044800.JPEG',
-              '/20250430044445.JPEG',
-              '/20250430044233.JPEG',
-              '/20250430043740.JPEG',
-              '/20250429045836.JPEG',
-              '/20250429045817.JPEG',
-              '/20250429045802.JPEG',
-              '/20250430043855.JPEG',
-              '/20250527020429.JPEG',
-              '/20250527020306.JPEG',
-            // ループ感を出すために同じ画像をもう一度
-              '/20250527041351.JPEG',
-              '/20250527041332.JPEG',
-              '/20250527041256.JPEG',
-              '/20250527041143.JPEG',
-              '/20250430044800.JPEG',
-              '/20250430044445.JPEG',
-              '/20250430044233.JPEG',
-              '/20250430043740.JPEG',
-            ].map((src, i) => (
-              <div key={i} className="relative w-80 h-64 flex-shrink-0 rounded-2xl overflow-hidden group">
-                <Image
-                  src={src}
-                  alt={`Gallery Image ${i + 1}`}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-              </div>
-            ))}
+        {/* Image Gallery - Horizontal Scrolling */}
+        <div className="mt-20 overflow-hidden">
+          <div className="animate-slide-left-slow">
+            <div className="flex space-x-6" style={{ width: 'calc(300px * 12)' }}>
+              {[...Array(12)].map((_, i) => (
+                <div key={i} className="w-72 h-48 bg-gray-800 rounded-lg flex-shrink-0 overflow-hidden">
+                  <Image
+                    src={`/images/camp-${(i % 6) + 1}.jpg`}
+                    alt={`キャンプ体験 ${i + 1}`}
+                    width={300}
+                    height={200}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23374151'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='Arial' font-size='16'%3E体験 ${i + 1}%3C/text%3E%3C/svg%3E`
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Experience Styles */}
+      {/* Plans Section */}
       <section 
-        id="experience" 
-        className="py-24 bg-black z-20 -mt-5"
+        id="plans" 
+        className="py-16 bg-black z-20 -mt-10"
       >
         <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">体験スタイル</h2>
-              <p className="text-xl text-gray-300">あなたにぴったりの過ごし方を見つけよう</p>
-              </div>
-              
-            <div className="grid lg:grid-cols-2 gap-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">あなたにぴったりのキャンプ体験を</h2>
+              <p className="text-xl text-gray-300">初めての方から本格的なアウトドア体験を求める方まで、様々なニーズに合わせた<br/>３つのプランをご用意しています。</p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
-                  title: "初めてのキャンプ",
-                  subtitle: "STYLE 01",
-                  description: "キャンプが初めての方でも安心して楽しめるよう、最高のおもてなしと共に丁寧にご案内いたします。",
-                  image: "/20250527041351.JPEG",
-                  features: ["手ぶらプラン", "スタッフサポート", "初心者向け設備"]
+                  name: "ライトプラン",
+                  subtitle: "気軽に学校キャンプ体験",
+                  price: "¥5,000",
+                  period: "/泊",
+                  features: [
+                    "区画サイト利用のみ",
+                    "トイレ、炊事場が利用可能"
+                  ],
+                  recommended: false
                 },
                 {
-                  title: "家族との時間",
-                  subtitle: "STYLE 02", 
-                  description: "家族みんなが笑顔になれる場所。子供たちは遊具エリアで自由に遊んだり、家族の絆を深める贅沢な時間が待っています。",
-                  image: "/20250527041332.JPEG",
-                  features: ["遊具エリア", "ファミリーサイト", "貸切風呂"]
+                  name: "スタンダードプラン", 
+                  subtitle: "手ぶらで設営！らくらくキャンプ",
+                  price: "¥8,000",
+                  period: "/泊",
+                  features: [
+                    "基本キャンプギア",
+                    "貸し出し付き区画サイト",
+                    "トイレ、炊事場、シャワー施設が利用可能"
+                  ],
+                  recommended: true
                 },
                 {
-                  title: "愛犬との旅",
-                  subtitle: "STYLE 03",
-                  description: "広々としたドッグランサイトで、愛犬が思う存分駆け回れます。愛犬との絆を深める体験をお楽しみください。",
-                  image: "/20250527041256.JPEG", 
-                  features: ["ドッグランサイト", "ペット同伴OK", "足湯スペース"]
-                },
-                {
-                  title: "日帰りの癒し",
-                  subtitle: "STYLE 04",
-                  description: "短時間でも自然に囲まれた静かな空間で贅沢な日帰り体験を提供します。都会では味わえないリフレッシュを。",
-                  image: "/20250527041143.JPEG",
-                  features: ["貸切サウナ", "BBQプラン", "日帰り温泉"]
+                  name: "プレミアムプラン",
+                  subtitle: "贅沢！廃校グランピング",
+                  price: "¥12,000",
+                  period: "/泊",
+                  features: [
+                    "グランピングサイト",
+                    "ベッド、ソファ完備",
+                    "特別アクティビティ"
+                  ],
+                  recommended: false
                 }
-              ].map((style, index) => (
-                  <div key={index} className="group cursor-pointer">
-                  <div className="relative h-80 rounded-3xl overflow-hidden mb-6">
-                    <Image
-                      src={style.image}
-                      alt={style.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                    <div className="absolute bottom-6 left-6 text-white">
-                      <div className="text-sm font-light mb-2 opacity-80">{style.subtitle}</div>
-                      <h3 className="text-2xl font-bold">{style.title}</h3>
+              ].map((plan, index) => (
+                <div key={index} className={`relative group bg-white/5 backdrop-blur-sm border rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-300 ${
+                  plan.recommended ? 'border-white/30 ring-2 ring-white/20' : 'border-white/10'
+                }`}>
+                  {plan.recommended && (
+                    <div className="absolute top-0 right-0 bg-white text-black px-4 py-1 text-sm font-semibold rounded-bl-xl">
+                      オススメ
                     </div>
-                  </div>
+                  )}
                   
-                  <div className="space-y-4">
-                    <p className="text-gray-300 leading-relaxed">{style.description}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {style.features.map((feature, i) => (
-                        <span key={i} className="px-3 py-1 bg-white/10 text-white text-sm rounded-full backdrop-blur-sm">
-                          {feature}
-                        </span>
-                ))}
-            </div>
-          </div>
+                  <div className="p-8">
+                    <div className="text-center mb-6">
+                      <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
+                      <p className="text-gray-300 text-sm mb-4">{plan.subtitle}</p>
+                      <div className="flex items-end justify-center mb-6">
+                        <span className="text-4xl font-bold text-white">{plan.price}</span>
+                        <span className="text-gray-300 text-lg ml-1">{plan.period}</span>
+                      </div>
+                    </div>
+                    
+                    <ul className="space-y-3 mb-8">
+                      {plan.features.map((feature, featureIndex) => (
+                        <li key={featureIndex} className="text-gray-300 flex items-start">
+                          <span className="w-1.5 h-1.5 bg-white rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                          <span className="text-sm">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    <Button className={`w-full py-3 rounded-lg font-semibold transition-all duration-300 ${
+                      plan.recommended 
+                        ? 'bg-white text-black hover:bg-gray-100' 
+                        : 'bg-white/20 text-white hover:bg-white/30 border border-white/30'
+                    }`}>
+                      今すぐ予約
+                    </Button>
+                  </div>
                 </div>
               ))}
-              </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
+
+      {/* Experience Section */}
+      <section 
+        id="experience" 
+        className="py-16 bg-black z-20 -mt-10"
+      >
+        <div className="container mx-auto px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">体験スタイル</h2>
+              <p className="text-xl text-gray-300">あなたにぴったりの過ごし方を見つけよう</p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+              {[
+                {
+                  style: "STYLE 01",
+                  title: "初めてのキャンプ",
+                  desc: "キャンプが初めての方でも安心して楽しめるよう、最高のおもてなしと共に丁寧にご案内いたします。",
+                  tags: ["手ぶらプラン", "スタッフサポート", "初心者向け設備"],
+                  emoji: "初めてのキャンプ"
+                },
+                {
+                  style: "STYLE 02", 
+                  title: "家族との時間",
+                  desc: "家族みんなが笑顔になれる場所。子供たちは遊具エリアで自由に遊んだり、家族の絆を深める贅沢な時間が待っています。",
+                  tags: ["遊具エリア", "ファミリーサイト", "貸切風呂"],
+                  emoji: "家族との時間"
+                },
+                {
+                  style: "STYLE 03",
+                  title: "愛犬との旅", 
+                  desc: "広々としたドッグランサイトで、愛犬が思う存分駆け回れます。愛犬との絆を深める体験をお楽しみください。",
+                  tags: ["ドッグランサイト", "ペット同伴OK", "足湯スペース"],
+                  emoji: "愛犬との旅"
+                },
+                {
+                  style: "STYLE 04",
+                  title: "日帰りの癒し",
+                  desc: "短時間でも自然に囲まれた静かな空間で贅沢な日帰り体験を提供します。都会では味わえないリフレッシュを。",
+                  tags: ["貸切サウナ", "BBQプラン", "日帰り温泉"],
+                  emoji: "日帰りの癒し"
+                }
+              ].map((experience, index) => (
+                <div key={index} className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
+                  <div className="flex items-center mb-4">
+                    <span className="text-sm font-semibold text-gray-400 mr-4">{experience.style}</span>
+                    <div className="text-sm text-gray-500">{experience.emoji}</div>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-4">{experience.title}</h3>
+                  <p className="text-gray-300 mb-6 leading-relaxed">{experience.desc}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {experience.tags.map((tag, tagIndex) => (
+                      <span key={tagIndex} className="px-3 py-1 bg-white/10 text-white text-sm rounded-full border border-white/20">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
 
       {/* Facilities Section */}
       <section 
         id="facilities" 
-        className="py-24 bg-black z-20 -mt-5"
+        className="py-16 bg-black z-20 -mt-10"
       >
         <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">施設・設備</h2>
               <p className="text-xl text-gray-300">充実した設備でお客様をお迎えします</p>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 { icon: "🛁", name: "貸切露天風呂", desc: "自然に囲まれた癒しの空間" },
                 { icon: "🧖‍♂️", name: "貸切サウナ", desc: "プライベートなサウナ体験" },
@@ -361,31 +402,31 @@ export default function HomePage() {
                   <p className="text-sm text-gray-400">{facility.desc}</p>
                 </div>
               ))}
-              </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Access Section */}
+      {/* Access Section */}
       <section 
         id="access" 
-        className="py-24 bg-black z-20 -mt-5"
+        className="py-16 bg-black z-20 -mt-10"
       >
         <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">アクセス</h2>
               <p className="text-xl text-gray-300">お気軽にお越しください</p>
-              </div>
-              
+            </div>
+            
             <div className="grid lg:grid-cols-2 gap-12">
-                <div className="space-y-8">
+              <div className="space-y-8">
                 <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
                   <h3 className="text-2xl font-bold text-white mb-6">施設情報</h3>
                   <div className="space-y-4">
                     <div className="flex items-start space-x-3">
                       <MapPin className="w-5 h-5 text-white mt-1 flex-shrink-0" />
-                  <div>
+                      <div>
                         <p className="text-white font-semibold">奥房総みらいプロジェクト</p>
                         <p className="text-gray-300">〒298-0202 千葉県夷隅郡大多喜町下大多喜１００</p>
                       </div>
@@ -399,8 +440,8 @@ export default function HomePage() {
                       <p className="text-gray-300">jifgv.tools@gmail.com</p>
                     </div>
                   </div>
-                  </div>
-                  
+                </div>
+                
                 <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
                   <h4 className="text-lg font-semibold text-white mb-4">アクセス方法</h4>
                   <div className="space-y-4">
@@ -415,34 +456,34 @@ export default function HomePage() {
                         ※送迎サービスもございます（要予約）
                       </p>
                     </div>
-                    </div>
                   </div>
                 </div>
-                
+              </div>
+              
               <div className="rounded-2xl overflow-hidden border border-white/10">
-                  <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3256.247591177041!2d140.24864785373208!3d35.299828964359115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6022b1451ba7d83f%3A0x98bd61e58198588!2z5aSn5aSa5Zac55S656uL5LiK54Kr5bCP5a2m5qCh!5e0!3m2!1sja!2smy!4v1749694394133!5m2!1sja!2smy" 
-                    width="100%" 
+                <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3256.247591177041!2d140.24864785373208!3d35.299828964359115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6022b1451ba7d83f%3A0x98bd61e58198588!2z5aSn5aSa5Zac55S656uL5LiK54Kr5bCP5a2m5qCh!5e0!3m2!1sja!2smy!4v1749694394133!5m2!1sja!2smy" 
+                  width="100%" 
                   height="500" 
-                    style={{ border: 0 }} 
-                    allowFullScreen={true}
-                    loading="lazy" 
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="大多喜町立上瀑小学校 - Google マップ"
-                  className="w-full h-full grayscale contrast-125"
-                  />
-                </div>
+                  style={{ border: 0 }} 
+                  allowFullScreen={true}
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="大多喜町立上瀑小学校 - Google マップ"
+                  className="w-full h-full contrast-125"
+                />
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
       {/* CTA Section */}
       <section 
-        className="py-24 bg-black z-20 -mt-5"
+        className="py-16 bg-black z-20 -mt-10"
       >
         <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               あなたの特別な時間を<br />
               お待ちしています
@@ -453,11 +494,9 @@ export default function HomePage() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <Link href="/reservation">
-                <Button className="bg-white text-black hover:bg-gray-100 px-12 py-4 text-lg font-semibold rounded-full transition-all duration-300 transform hover:scale-105">
-                  今すぐ予約する
-                </Button>
-              </Link>
+              <Button className="bg-white text-black hover:bg-gray-100 px-12 py-4 text-lg font-semibold rounded-full transition-all duration-300 transform hover:scale-105">
+                今すぐ予約する
+              </Button>
               <Button 
                 variant="ghost" 
                 className="text-white border-2 border-white/50 hover:bg-white/10 px-12 py-4 text-lg font-light rounded-full transition-all duration-300"
@@ -473,75 +512,75 @@ export default function HomePage() {
                 <span>2025/01/20</span>
                 <span>|</span>
                 <span>1/20(月)PM12:00〜1/21(火)終日は、当施設お休みとなります。</span>
-          </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-      {/* Footer - 条件付き表示 */}
-      {showFooter && (
-        <footer className="bg-black border-t border-white/10 transition-all duration-500 transform translate-y-0 opacity-100 z-20 -mt-5">
-        <div className="container mx-auto px-6 py-16">
-          <div className="max-w-6xl mx-auto">
-            {/* Footer Content */}
-            <div className="grid md:grid-cols-3 gap-12 mb-12">
-              <div>
-                <div className="flex items-center space-x-3 mb-6">
-                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                    <TreePine className="w-6 h-6 text-white" />
-                  </div>
-                  <span className="text-xl font-bold text-white">奥房総みらい</span>
-                </div>
-                <p className="text-gray-400 leading-relaxed">
-                  千葉県大多喜町の廃校を活用した自然溢れるキャンプ複合施設。あなたの心の休息地として、特別な体験をお届けします。
-                </p>
-              </div>
-              
-              <div>
-                <h4 className="text-lg font-semibold text-white mb-4">リンク</h4>
-                <div className="space-y-2">
-                  {['体験スタイル', '宿泊プラン', '施設案内', 'アクセス', 'よくある質問'].map((link) => (
-                    <a key={link} href="#" className="block text-gray-400 hover:text-white transition-colors">
-                  {link}
-                </a>
-              ))}
-            </div>
-            </div>
-            
-              <div>
-                <h4 className="text-lg font-semibold text-white mb-4">お問い合わせ</h4>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <Phone className="w-4 h-4 text-gray-400" />
-                    <span className="text-gray-400">0475-78-3050</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <Mail className="w-4 h-4 text-gray-400" />
-                    <span className="text-gray-400">jifgv.tools@gmail.com</span>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <MapPin className="w-4 h-4 text-gray-400 mt-1" />
-                    <span className="text-gray-400 text-sm">〒298-0202 千葉県夷隅郡大多喜町下大多喜１００</span>
-                  </div>
-                </div>
-            </div>
-            </div>
-            
-            {/* Footer Bottom */}
-            <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
-              <p className="text-gray-400 text-sm">
-                © 2025 奥房総みらいプロジェクト. All rights reserved.
-              </p>
-              <div className="flex space-x-6 mt-4 md:mt-0">
-                <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">プライバシーポリシー</a>
-                <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">利用規約</a>
               </div>
             </div>
           </div>
         </div>
-      </footer>
+      </section>
+
+      {/* Footer - 条件付き表示 */}
+      {showFooter && (
+        <footer className="bg-black border-t border-white/10 transition-all duration-500 transform translate-y-0 opacity-100 z-20 -mt-5">
+          <div className="container mx-auto px-6 py-16">
+            <div className="max-w-6xl mx-auto">
+              {/* Footer Content */}
+              <div className="grid md:grid-cols-3 gap-12 mb-12">
+                <div>
+                  <div className="flex items-center space-x-3 mb-6">
+                    <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                      <TreePine className="w-6 h-6 text-white" />
+                    </div>
+                    <span className="text-xl font-bold text-white">奥房総みらい</span>
+                  </div>
+                  <p className="text-gray-400 leading-relaxed">
+                    千葉県大多喜町の廃校を活用した自然溢れるキャンプ複合施設。あなたの心の休息地として、特別な体験をお届けします。
+                  </p>
+                </div>
+                
+                <div>
+                  <h4 className="text-lg font-semibold text-white mb-4">リンク</h4>
+                  <div className="space-y-2">
+                    {['プラン', '体験スタイル', '施設・設備', 'アクセス', 'よくある質問'].map((link) => (
+                      <a key={link} href="#" className="block text-gray-400 hover:text-white transition-colors">
+                        {link}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="text-lg font-semibold text-white mb-4">お問い合わせ</h4>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-3">
+                      <Phone className="w-4 h-4 text-gray-400" />
+                      <span className="text-gray-400">0475-78-3050</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <Mail className="w-4 h-4 text-gray-400" />
+                      <span className="text-gray-400">jifgv.tools@gmail.com</span>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <MapPin className="w-4 h-4 text-gray-400 mt-1" />
+                      <span className="text-gray-400 text-sm">〒298-0202 千葉県夷隅郡大多喜町下大多喜１００</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Footer Bottom */}
+              <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p className="text-gray-400 text-sm">
+                  © 2025 奥房総みらいプロジェクト. All rights reserved.
+                </p>
+                <div className="flex space-x-6 mt-4 md:mt-0">
+                  <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">プライバシーポリシー</a>
+                  <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">利用規約</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
       )}
     </div>
   )
-}
+} 
