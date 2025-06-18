@@ -30,29 +30,55 @@ jobs:
     - name: Install dependencies
       run: npm ci
       
-    - name: Build
-      run: npm run build
+    - name: Build Next.js app
+      run: |
+        echo "Building Next.js application..."
+        npm run build
       env:
         NODE_ENV: production
+        NEXT_TELEMETRY_DISABLED: 1
     
-    - name: Debug - List files after build
+    - name: Debug - Comprehensive file check
       run: |
-        echo "Root directory contents:"
+        echo "=== Root directory contents ==="
         ls -la
-        echo "Checking if dist directory exists:"
+        
+        echo "=== Checking next.config.ts ==="
+        cat next.config.ts
+        
+        echo "=== Checking package.json build script ==="
+        grep -A 5 -B 5 '"build"' package.json
+        
+        echo "=== Checking for Next.js output directories ==="
         if [ -d "dist" ]; then
-          echo "dist directory exists, contents:"
-          ls -la dist/
+          echo "✅ dist directory exists!"
+          echo "dist directory contents:"
+          ls -la dist/ | head -20
+          echo "dist directory size:"
+          du -sh dist/
         else
-          echo "dist directory does not exist!"
+          echo "❌ dist directory does not exist!"
         fi
-        echo "Checking if out directory exists:"
+        
         if [ -d "out" ]; then
-          echo "out directory exists, contents:"
-          ls -la out/
+          echo "✅ out directory exists!"
+          echo "out directory contents:"
+          ls -la out/ | head -20
+          echo "out directory size:"
+          du -sh out/
         else
-          echo "out directory does not exist!"
+          echo "❌ out directory does not exist!"
         fi
+        
+        if [ -d ".next" ]; then
+          echo "✅ .next directory exists!"
+          ls -la .next/ | head -10
+        else
+          echo "❌ .next directory does not exist!"
+        fi
+        
+        echo "=== Checking if index.html exists in output directories ==="
+        find . -name "index.html" -not -path "./node_modules/*" -not -path "./.git/*"
         
     - name: Setup Pages
       uses: actions/configure-pages@v4
