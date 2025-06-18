@@ -34,6 +34,25 @@ jobs:
       run: npm run build
       env:
         NODE_ENV: production
+    
+    - name: Debug - List files after build
+      run: |
+        echo "Root directory contents:"
+        ls -la
+        echo "Checking if dist directory exists:"
+        if [ -d "dist" ]; then
+          echo "dist directory exists, contents:"
+          ls -la dist/
+        else
+          echo "dist directory does not exist!"
+        fi
+        echo "Checking if out directory exists:"
+        if [ -d "out" ]; then
+          echo "out directory exists, contents:"
+          ls -la out/
+        else
+          echo "out directory does not exist!"
+        fi
         
     - name: Setup Pages
       uses: actions/configure-pages@v4
